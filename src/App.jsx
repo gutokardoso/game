@@ -344,7 +344,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
   )
 }
 
-function EndScreen({ name, score, result, restart, ranking }) {
+function EndScreen({ name, score, result, restart, ranking, backToStart }) {
   useEffect(() => {
     playSound('champion')
   }, [])
@@ -366,9 +366,9 @@ function EndScreen({ name, score, result, restart, ranking }) {
             ) : (
               ranking.map((player, index) => (
                 <div className="ranking-row" key={`${player.name}-${index}`}>
-                  <span className="ranking-position">{index + 1}</span>
+                  <span className="ranking-position">{index + 1}.</span>
                   <span className="ranking-name">{player.name}</span>
-                  <span className="ranking-score">{player.score} pts</span>
+                  <span className="ranking-score">{player.score}</span>
                 </div>
               ))
             )}
@@ -577,6 +577,24 @@ function App() {
     }
   }, [board, tray, screen, time])
 
+  function backToStart() {
+    clearInterval(timerRef.current)
+    clearTimeout(comboTimeoutRef.current)
+    clearTimeout(matchFeedbackTimeoutRef.current)
+    matchTimesRef.current = []
+    setBoard(createBoard())
+    setTray([])
+    setTime(ROUND_TIME)
+    setScore(0)
+    setMatchingIds([])
+    setComboVisible(false)
+    setMatchFeedback(null)
+    setMessage('Arraste ou clique em um produto para levar ao organizador.')
+    setResult('lose')
+    setRanking(getRanking())
+    setScreen('start')
+  }
+
   useEffect(() => () => {
     clearInterval(timerRef.current)
     clearTimeout(comboTimeoutRef.current)
@@ -584,7 +602,7 @@ function App() {
   }, [])
 
   if (screen === 'start') return <StartScreen name={name} setName={setName} onStart={start} />
-  if (screen === 'end') return <EndScreen name={name} score={score} result={result} restart={start} ranking={ranking} />
+  if (screen === 'end') return <EndScreen name={name} score={score} result={result} restart={start} ranking={ranking} backToStart={backToStart} />
 
   return (
     <GameScreen
