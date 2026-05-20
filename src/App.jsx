@@ -352,11 +352,15 @@ function EndScreen({ name, score, result, restart, ranking, backToStart }) {
   return (
     <main className="end-screen">
       <div className="end-panel">
-        <img src="/assets/logo-uau.png" />
+        <img src="/assets/logo-uau.png" className="final-logo" />
+
         <h1>{result === 'win' ? 'Você venceu!' : 'Fim de jogo!'}</h1>
-        <p>{name}, você fez</p>
-        <div>{score}</div>
-        <span>pontos</span>
+        <p className="final-player-name">{name || 'Jogador'}</p>
+
+        <section className="final-score-card">
+          <span>Pontuação</span>
+          <strong>{score}</strong>
+        </section>
 
         <section className="ranking-box">
           <h2>Top 5 Ranking</h2>
@@ -375,7 +379,10 @@ function EndScreen({ name, score, result, restart, ranking, backToStart }) {
           </div>
         </section>
 
-        <button className="gold-button" onClick={restart}>Jogar novamente</button>
+        <div className="final-buttons-row">
+          <button className="gold-button replay-button" onClick={restart}>Jogar novamente</button>
+          <button className="gold-button home-button" onClick={backToStart}>Voltar ao início</button>
+        </div>
       </div>
     </main>
   )
