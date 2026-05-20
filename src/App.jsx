@@ -14,8 +14,6 @@ const PRODUCTS = [
   { type: 'pisos', name: 'Limpa Pisos', image: '/assets/products/limpa-pisos.png' },
 ]
 
-// 36 produtos no total: 9 de cada tipo. Cada quantidade é múltiplo de 3,
-// para garantir que todos possam ser removidos por Match 3 até o final.
 const PRODUCT_POOL = [
   ...Array(9).fill('amaciante'),
   ...Array(9).fill('essencia'),
@@ -34,11 +32,9 @@ function shuffle(array) {
 function createBoard() {
   const mixed = shuffle(PRODUCT_POOL)
   const slots = []
-
   for (let i = 0; i < 24; i++) {
     const depth = i < 12 ? 2 : 1
     const layers = []
-
     for (let j = 0; j < depth; j++) {
       const type = mixed.pop()
       if (type) {
@@ -48,13 +44,8 @@ function createBoard() {
         })
       }
     }
-
-    slots.push({
-      slotId: `slot-${i}`,
-      layers
-    })
+    slots.push({ slotId: `slot-${i}`, layers })
   }
-
   return slots
 }
 
@@ -72,6 +63,26 @@ function playSound(kind) {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext
     const ctx = new AudioContext()
+
+    if (kind === 'champion') {
+      const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5]
+      notes.forEach((freq, index) => {
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.type = 'triangle'
+        osc.frequency.value = freq
+        const start = ctx.currentTime + index * 0.16
+        gain.gain.setValueAtTime(0.001, start)
+        gain.gain.exponentialRampToValueAtTime(0.12, start + 0.03)
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.22)
+        osc.start(start)
+        osc.stop(start + 0.24)
+      })
+      return
+    }
+
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
     osc.connect(gain)
@@ -186,7 +197,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, 
         <header className="top-hud">
           <div className="small-card"><span>Nível</span><strong>12</strong></div>
           <div className="small-card"><span>Estrelas</span><strong><Star fill="#ffd86b" /> 2</strong></div>
-          <div className="time-card"><Clock /><strong>{formatTime(time)}</strong><i /></div>
+          <div className="time-card"><Clock /><strong>{formatTime(time)}</strong></div>
           <div className="points-card"><Trophy /><span>Pontos</span><strong>{score}</strong></div>
         </header>
 
@@ -257,6 +268,10 @@ function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, 
 }
 
 function EndScreen({ name, score, result, restart }) {
+  useEffect(() => {
+    playSound('champion')
+  }, [])
+
   return (
     <main className="end-screen">
       <div className="end-panel">
