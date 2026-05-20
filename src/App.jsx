@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, Pause, RotateCcw, Shuffle, Lightbulb, User } from 'lucide-react'
+import { Clock, Pause, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
@@ -65,11 +65,13 @@ function playSound(kind) {
 function StartScreen({ name, setName, onStart }) {
   return (
     <main className="start-screen">
-      <div className="start-panel">
+      <div className="ambient-glow" />
+      <section className="start-panel">
         <img src="/assets/logo-uau.png" className="start-logo" />
-        <div className="start-title">
+        <div className="goods-badge">
           <span>GOODS</span>
           <strong>SORT</strong>
+          <ShoppingCart />
         </div>
         <p>Organize, combine e vença!</p>
         <label className="name-field">
@@ -77,14 +79,27 @@ function StartScreen({ name, setName, onStart }) {
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome" />
         </label>
         <button className="gold-button" onClick={onStart}>Começar</button>
-      </div>
+      </section>
     </main>
   )
 }
 
-function ProductImage({ item, dark = false }) {
+function TutorialPanel() {
   return (
-    <div className={dark ? 'product-image product-dark' : 'product-image'}>
+    <aside className="tutorial">
+      <img src="/assets/logo-uau.png" className="side-logo" />
+      <div className="side-title">GOODS<br/>SORT</div>
+
+      <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens idênticos para o organizador.</p></div>
+      <div className="tip"><b>2</b><h3>Camadas ocultas</h3><p>Os produtos de trás ficam visíveis, porém mais escuros.</p></div>
+      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Esvazie todas as prateleiras antes do tempo acabar.</p></div>
+    </aside>
+  )
+}
+
+function ProductImage({ item, dark = false, tray = false }) {
+  return (
+    <div className={`${dark ? 'product-image dark-product' : 'product-image'} ${tray ? 'tray-image' : ''}`}>
       <img src={item.image} />
     </div>
   )
@@ -100,7 +115,7 @@ function ShelfCell({ slot, onDragStart }) {
     <div className="shelf-cell">
       <div className="hidden-products">
         {hidden.map((item, index) => (
-          <div className="hidden-product" key={item.id} style={{ right: `${index * 10 + 5}px`, transform: `scale(${0.78 - index * 0.08})` }}>
+          <div className="hidden-product" key={item.id} style={{ right: `${index * 14 + 8}px`, transform: `scale(${0.82 - index * 0.1})` }}>
             <ProductImage item={item} dark />
           </div>
         ))}
@@ -123,7 +138,7 @@ function ShelfCell({ slot, onDragStart }) {
   )
 }
 
-function GameScreen({ name, board, tray, time, score, matchingIds, message, onSelect, onRestart }) {
+function GameScreen({ board, tray, time, matchingIds, message, onSelect, onRestart }) {
   const [dragging, setDragging] = useState(null)
   const shelves = [board.slice(0, 8), board.slice(8, 16), board.slice(16, 24)]
 
@@ -141,66 +156,67 @@ function GameScreen({ name, board, tray, time, score, matchingIds, message, onSe
 
   return (
     <main className="game-screen">
-      <img src="/assets/uau-goods-sort-bg.png" className="reference-bg" />
+      <div className="blurred-market-bg" />
+      <TutorialPanel />
 
-      <section className="left-tutorial" aria-hidden="true" />
-      <section className="top-hud">
-        <div className="small-card"><span>Nível</span><strong>12</strong></div>
-        <div className="small-card"><span>Estrelas</span><strong>⭐ 2</strong></div>
-        <div className="time-card"><Clock /><strong>{formatTime(time)}</strong><i /></div>
-        <button className="pause"><Pause /></button>
-      </section>
+      <section className="play-area">
+        <header className="top-hud">
+          <div className="small-card"><span>Nível</span><strong>12</strong></div>
+          <div className="small-card"><span>Estrelas</span><strong><Star fill="#ffd86b" /> 2</strong></div>
+          <div className="time-card"><Clock /><strong>{formatTime(time)}</strong><i /></div>
+          <button className="pause"><Pause /></button>
+        </header>
 
-      <section className="play-board">
-        {shelves.map((shelf, index) => (
-          <div className="shelf-row" key={index}>
-            <div className="cell-grid">
-              {shelf.map((slot) => (
-                <ShelfCell key={slot.slotId} slot={slot} onDragStart={setDragging} />
-              ))}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
-        <div className="tray-grid">
-          {Array.from({ length: TRAY_SIZE }).map((_, index) => {
-            const item = tray[index]
-            const isMatch = item && matchingIds.includes(item.id)
-            return (
-              <div className={isMatch ? 'tray-cell match' : 'tray-cell'} key={index}>
-                <AnimatePresence>
-                  {item && (
-                    <motion.div
-                      className="tray-product"
-                      key={item.id}
-                      initial={{ opacity: 0, y: -30, scale: 0.4 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0 }}
-                    >
-                      <img src={item.image} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+        <section className="cabinet">
+          {shelves.map((shelf, index) => (
+            <div className="shelf-row" key={index}>
+              <div className="cell-grid">
+                {shelf.map(slot => <ShelfCell key={slot.slotId} slot={slot} onDragStart={setDragging} />)}
               </div>
-            )
-          })}
-        </div>
+              <div className="shelf-board" />
+            </div>
+          ))}
+        </section>
+
+        <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
+          <div className="tray-grid">
+            {Array.from({ length: TRAY_SIZE }).map((_, index) => {
+              const item = tray[index]
+              const isMatch = item && matchingIds.includes(item.id)
+              return (
+                <div className={isMatch ? 'tray-cell match' : 'tray-cell'} key={index}>
+                  <AnimatePresence>
+                    {item && (
+                      <motion.div
+                        className="tray-product"
+                        key={item.id}
+                        initial={{ opacity: 0, y: -30, scale: 0.4 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                      >
+                        <ProductImage item={item} tray />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <button className="touch-drop" onClick={touchDrop}>Soltar no organizador</button>
+
+        <section className="powerups">
+          <button><Lightbulb /><em>3</em></button>
+          <button onClick={onRestart}><RotateCcw /><em>2</em></button>
+          <button><Shuffle /><em>2</em></button>
+        </section>
+
+        <footer className="slogan">
+          <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
+          <p>{message}</p>
+        </footer>
       </section>
-
-      <button className="touch-drop" onClick={touchDrop}>Soltar no organizador</button>
-
-      <section className="powerups">
-        <button><Lightbulb /><em>3</em></button>
-        <button onClick={onRestart}><RotateCcw /><em>2</em></button>
-        <button><Shuffle /><em>2</em></button>
-      </section>
-
-      <footer className="slogan">
-        <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
-        <p>{message}</p>
-      </footer>
     </main>
   )
 }
@@ -258,7 +274,6 @@ function App() {
   }
 
   function selectSlot(slotId) {
-    if (screen !== 'game') return
     const selected = board.find((slot) => slot.slotId === slotId)
     const item = selected ? topItem(selected) : null
     if (!item) return
@@ -304,7 +319,6 @@ function App() {
 
   useEffect(() => {
     if (screen !== 'game') return
-
     const remaining = board.reduce((total, slot) => total + slot.layers.length, 0)
 
     if (remaining === 0 && tray.length === 0) {
@@ -331,11 +345,9 @@ function App() {
 
   return (
     <GameScreen
-      name={name}
       board={board}
       tray={tray}
       time={time}
-      score={score}
       matchingIds={matchingIds}
       message={message}
       onSelect={selectSlot}
