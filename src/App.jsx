@@ -111,21 +111,24 @@ function playSound(kind) {
 
 function StartScreen({ name, setName, onStart }) {
   return (
-    <main className="start-screen">
-      <div className="ambient-glow" />
-      <section className="start-panel">
-        <img src="/assets/logo-uau.png" className="start-logo" />
-        <div className="goods-badge">
-          <span>PACK</span>
-          <strong>CHÁ BRANCO</strong>
-          <ShoppingCart />
-        </div>
-        <p>Organize, combine e vença!</p>
-        <label className="name-field">
+    <main className="start-screen exact-start-screen">
+      <img className="exact-start-bg" src="/assets/start-menu-bg.png" alt="UAU Market Challenge" />
+
+      <section className="exact-start-form">
+        <label className="exact-name-field">
           <User />
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome" />
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Seu nome"
+            maxLength={22}
+            autoFocus
+          />
         </label>
-        <button className="gold-button" onClick={onStart}>Começar</button>
+
+        <button className="exact-start-button" onClick={onStart}>
+          Começar
+        </button>
       </section>
     </main>
   )

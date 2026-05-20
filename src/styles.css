@@ -1292,3 +1292,164 @@
     font-size:8px!important;
   }
 }
+
+
+/* v13 exact start screen layout */
+.exact-start-screen{
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  padding:0!important;
+  overflow:hidden!important;
+  position:relative!important;
+  background:#000!important;
+  display:block!important;
+}
+
+.exact-start-bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+  pointer-events:none;
+}
+
+.exact-start-form{
+  position:absolute;
+  z-index:3;
+  left:38.5%;
+  top:65.4%;
+  width:55%;
+  max-width:610px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:28px;
+}
+
+.exact-name-field{
+  width:100%;
+  height:68px;
+  border:2px solid #f2b51f;
+  border-radius:13px;
+  background:rgba(0,0,0,.68);
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:0 28px;
+  box-shadow:0 0 22px rgba(214,169,53,.22), inset 0 0 20px rgba(255,255,255,.03);
+}
+
+.exact-name-field svg{
+  color:#d8d8d8;
+  width:34px;
+  height:34px;
+  opacity:.95;
+}
+
+.exact-name-field input{
+  flex:1;
+  height:100%;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:white;
+  font-size:30px;
+  font-weight:500;
+}
+
+.exact-name-field input::placeholder{
+  color:rgba(255,255,255,.42);
+}
+
+.exact-start-button{
+  width:82%;
+  height:82px;
+  border-radius:18px;
+  border:2px solid #ffe07b;
+  background:linear-gradient(180deg,#ffc226 0%,#e39b07 70%,#ad6500 100%);
+  color:#080808;
+  font-size:42px;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  box-shadow:0 0 35px rgba(255,183,26,.45), inset 0 2px 0 rgba(255,255,255,.45);
+}
+
+.exact-start-button:active{
+  transform:translateY(3px) scale(.99);
+}
+
+@media(max-width:900px){
+  .exact-start-bg{
+    object-fit:cover;
+    object-position:center center;
+  }
+
+  .exact-start-form{
+    left:34%;
+    top:65.3%;
+    width:61%;
+    max-width:none;
+    gap:18px;
+  }
+
+  .exact-name-field{
+    height:50px;
+    border-radius:10px;
+    padding:0 18px;
+    gap:12px;
+  }
+
+  .exact-name-field svg{
+    width:24px;
+    height:24px;
+  }
+
+  .exact-name-field input{
+    font-size:22px;
+  }
+
+  .exact-start-button{
+    height:60px;
+    border-radius:14px;
+    font-size:30px;
+  }
+}
+
+@media(max-width:560px){
+  .exact-start-bg{
+    object-position:center center;
+  }
+
+  .exact-start-form{
+    left:33%;
+    top:65.7%;
+    width:62%;
+    gap:12px;
+  }
+
+  .exact-name-field{
+    height:38px;
+    padding:0 12px;
+    gap:8px;
+    border-width:1.5px;
+  }
+
+  .exact-name-field svg{
+    width:18px;
+    height:18px;
+  }
+
+  .exact-name-field input{
+    font-size:16px;
+  }
+
+  .exact-start-button{
+    height:46px;
+    border-radius:11px;
+    font-size:22px;
+  }
+}
