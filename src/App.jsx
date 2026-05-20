@@ -138,7 +138,7 @@ function TutorialPanel() {
       <div className="side-title">PACK<br/>CHÁ BRANCO</div>
       <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens para o organizador.</p></div>
       <div className="tip"><b>2</b><h3>Combo +300</h3><p>Faça 3 matchs em até 5 segundos.</p></div>
-      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Prateleiras com 6 produtos cada.</p></div>
+      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Esvazie as prateleiras antes do tempo acabar.</p></div>
     </aside>
   )
 }
@@ -216,19 +216,35 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           </motion.div>
         )}
       </AnimatePresence>
-      <AnimatePresence>
-        {matchFeedback && (
-          <motion.div
-            className="match-feedback"
-            initial={{ opacity: 0, scale: 0.55, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.85, y: -25 }}
-          >
-            <Sparkles />
-            {matchFeedback}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="center-alerts">
+        <AnimatePresence>
+          {matchFeedback && (
+            <motion.div
+              className="match-feedback"
+              initial={{ opacity: 0, scale: 0.55, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: -25 }}
+            >
+              <Sparkles />
+              {matchFeedback}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {comboVisible && (
+            <motion.div
+              className="combo-badge combo-center"
+              initial={{ opacity: 0, scale: 0.55, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -28 }}
+            >
+              <Sparkles />
+              Combo +300
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
       <TutorialPanel />
 
       <section className="play-area">
@@ -240,19 +256,6 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           </button>
           <div className="time-card"><Clock /><strong>{formatTime(time)}</strong></div>
           <div className="points-card">
-            <AnimatePresence>
-              {comboVisible && (
-                <motion.div
-                  className="combo-badge"
-                  initial={{ opacity: 0, scale: 0.55, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: -8 }}
-                  exit={{ opacity: 0, scale: 0.8, y: -28 }}
-                >
-                  <Sparkles />
-                  Combo +300
-                </motion.div>
-              )}
-            </AnimatePresence>
             <Trophy /><strong>{score}</strong>
           </div>
         </header>
