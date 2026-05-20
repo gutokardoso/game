@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, Pause, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart } from 'lucide-react'
+import { Clock, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart, Trophy } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
@@ -89,7 +89,6 @@ function TutorialPanel() {
     <aside className="tutorial">
       <img src="/assets/logo-uau.png" className="side-logo" />
       <div className="side-title">GOODS<br/>SORT</div>
-
       <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens idênticos para o organizador.</p></div>
       <div className="tip"><b>2</b><h3>Camadas ocultas</h3><p>Os produtos de trás ficam visíveis, porém mais escuros.</p></div>
       <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Esvazie todas as prateleiras antes do tempo acabar.</p></div>
@@ -105,7 +104,7 @@ function ProductImage({ item, dark = false, tray = false }) {
   )
 }
 
-function ShelfCell({ slot, onDragStart }) {
+function ShelfCell({ slot, onSelect, onDragStart }) {
   const front = topItem(slot)
   const hidden = slot.layers.slice(0, -1).slice(-2)
 
@@ -121,24 +120,24 @@ function ShelfCell({ slot, onDragStart }) {
         ))}
       </div>
 
-      <motion.div
+      <motion.button
         className="front-product"
         draggable
         onDragStart={(event) => {
           event.dataTransfer.setData('text/plain', slot.slotId)
           onDragStart(slot.slotId)
         }}
-        onTouchStart={() => onDragStart(slot.slotId)}
+        onClick={() => onSelect(slot.slotId)}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.92 }}
       >
         <ProductImage item={front} />
-      </motion.div>
+      </motion.button>
     </div>
   )
 }
 
-function GameScreen({ board, tray, time, matchingIds, message, onSelect, onRestart }) {
+function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, onRestart }) {
   const [dragging, setDragging] = useState(null)
   const shelves = [board.slice(0, 8), board.slice(8, 16), board.slice(16, 24)]
 
@@ -164,18 +163,30 @@ function GameScreen({ board, tray, time, matchingIds, message, onSelect, onResta
           <div className="small-card"><span>Nível</span><strong>12</strong></div>
           <div className="small-card"><span>Estrelas</span><strong><Star fill="#ffd86b" /> 2</strong></div>
           <div className="time-card"><Clock /><strong>{formatTime(time)}</strong><i /></div>
-          <button className="pause"><Pause /></button>
+          <div className="points-card"><Trophy /><span>Pontos</span><strong>{score}</strong></div>
         </header>
 
         <section className="cabinet">
           {shelves.map((shelf, index) => (
             <div className="shelf-row" key={index}>
               <div className="cell-grid">
-                {shelf.map(slot => <ShelfCell key={slot.slotId} slot={slot} onDragStart={setDragging} />)}
+                {shelf.map(slot => (
+                  <ShelfCell
+                    key={slot.slotId}
+                    slot={slot}
+                    onSelect={onSelect}
+                    onDragStart={setDragging}
+                  />
+                ))}
               </div>
               <div className="shelf-board" />
             </div>
           ))}
+        </section>
+
+        <section className="organizer-label">
+          <strong>Organizador</strong>
+          <span>Arraste ou clique nos produtos para juntar 3 iguais</span>
         </section>
 
         <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
@@ -204,7 +215,7 @@ function GameScreen({ board, tray, time, matchingIds, message, onSelect, onResta
           </div>
         </section>
 
-        <button className="touch-drop" onClick={touchDrop}>Soltar no organizador</button>
+        <button className="touch-drop" onClick={touchDrop}>Soltar produto selecionado</button>
 
         <section className="powerups">
           <button><Lightbulb /><em>3</em></button>
@@ -244,7 +255,7 @@ function App() {
   const [time, setTime] = useState(ROUND_TIME)
   const [score, setScore] = useState(0)
   const [matchingIds, setMatchingIds] = useState([])
-  const [message, setMessage] = useState('Arraste um produto da frente para o organizador.')
+  const [message, setMessage] = useState('Arraste ou clique em um produto para levar ao organizador.')
   const [result, setResult] = useState('lose')
   const timerRef = useRef(null)
 
@@ -256,7 +267,7 @@ function App() {
     setTime(ROUND_TIME)
     setScore(0)
     setMatchingIds([])
-    setMessage('Arraste um produto da frente para o organizador.')
+    setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
     setScreen('game')
 
@@ -348,6 +359,7 @@ function App() {
       board={board}
       tray={tray}
       time={time}
+      score={score}
       matchingIds={matchingIds}
       message={message}
       onSelect={selectSlot}
