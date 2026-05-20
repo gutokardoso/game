@@ -10,6 +10,28 @@ const MATCH_POINTS = 150
 const COMBO_POINTS = 300
 const COMBO_WINDOW_MS = 5000
 
+const RANKING_KEY = 'uau-market-challenge-ranking-top5'
+
+function getRanking() {
+  try {
+    return JSON.parse(localStorage.getItem(RANKING_KEY) || '[]')
+  } catch {
+    return []
+  }
+}
+
+function saveRankingEntry(name, score) {
+  const safeName = (name || 'Jogador').trim() || 'Jogador'
+  const current = getRanking()
+  const updated = [...current, { name: safeName, score, date: new Date().toISOString() }]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+
+  localStorage.setItem(RANKING_KEY, JSON.stringify(updated))
+  return updated
+}
+
+
 const PRODUCTS = [
   { type: 'amaciante', name: 'Amaciante', image: '/assets/products/amaciante.png' },
   { type: 'essencia', name: 'Essência', image: '/assets/products/essencia.png' },
@@ -322,7 +344,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
   )
 }
 
-function EndScreen({ name, score, result, restart }) {
+function EndScreen({ name, score, result, restart, ranking }) {
   useEffect(() => {
     playSound('champion')
   }, [])
@@ -335,6 +357,23 @@ function EndScreen({ name, score, result, restart }) {
         <p>{name}, você fez</p>
         <div>{score}</div>
         <span>pontos</span>
+
+        <section className="ranking-box">
+          <h2>Top 5 Ranking</h2>
+          <div className="ranking-list">
+            {ranking.length === 0 ? (
+              <p>Nenhum jogador ainda</p>
+            ) : (
+              ranking.map((player, index) => (
+                <div className="ranking-row" key={`${player.name}-${index}`}>
+                  <strong>{index + 1}. {player.name}</strong>
+                  <span>{player.score} pts</span>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
         <button className="gold-button" onClick={restart}>Jogar novamente</button>
       </div>
     </main>
@@ -351,12 +390,26 @@ function App() {
   const [matchingIds, setMatchingIds] = useState([])
   const [message, setMessage] = useState('Arraste ou clique em um produto para levar ao organizador.')
   const [result, setResult] = useState('lose')
+  const [ranking, setRanking] = useState(getRanking())
   const [comboVisible, setComboVisible] = useState(false)
   const [matchFeedback, setMatchFeedback] = useState(null)
   const timerRef = useRef(null)
   const matchTimesRef = useRef([])
   const comboTimeoutRef = useRef(null)
   const matchFeedbackTimeoutRef = useRef(null)
+
+
+  function finishGame(finalResult, bonus = 0) {
+    clearInterval(timerRef.current)
+    setResult(finalResult)
+    setScore((current) => {
+      const finalScore = current + bonus
+      const updatedRanking = saveRankingEntry(name, finalScore)
+      setRanking(updatedRanking)
+      return finalScore
+    })
+    setTimeout(() => setScreen('end'), 650)
+  }
 
   function start() {
     if (!name.trim()) return
@@ -373,15 +426,14 @@ function App() {
     clearTimeout(matchFeedbackTimeoutRef.current)
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
+    setRanking(getRanking())
     setScreen('game')
 
     timerRef.current = setInterval(() => {
       setTime((current) => {
         if (current <= 1) {
           playSound('champion')
-          clearInterval(timerRef.current)
-          setResult('lose')
-          setScreen('end')
+          finishGame('lose')
           return 0
         }
         if (current <= 10) {
@@ -513,18 +565,13 @@ function App() {
     const remaining = board.reduce((total, slot) => total + slot.layers.length, 0)
 
     if (remaining === 0 && tray.length === 0) {
-      clearInterval(timerRef.current)
-      setScore((current) => current + time * 5)
-      setResult('win')
-      setTimeout(() => setScreen('end'), 650)
+      finishGame('win', time * 5)
     }
 
     if (tray.length >= TRAY_SIZE) {
       const possible = PRODUCTS.some((product) => tray.filter((item) => item.type === product.type).length >= 3)
       if (!possible) {
-        clearInterval(timerRef.current)
-        setResult('lose')
-        setTimeout(() => setScreen('end'), 650)
+        finishGame('lose')
       }
     }
   }, [board, tray, screen, time])
@@ -536,7 +583,7 @@ function App() {
   }, [])
 
   if (screen === 'start') return <StartScreen name={name} setName={setName} onStart={start} />
-  if (screen === 'end') return <EndScreen name={name} score={score} result={result} restart={start} />
+  if (screen === 'end') return <EndScreen name={name} score={score} result={result} restart={start} ranking={ranking} />
 
   return (
     <GameScreen
