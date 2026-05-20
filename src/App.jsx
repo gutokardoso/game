@@ -184,7 +184,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
   )
 }
 
-function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, finalCountdown, onSelect, onRestart, onClearTray }) {
+function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, matchFeedback, finalCountdown, onSelect, onRestart, onClearTray }) {
   const [dragging, setDragging] = useState(null)
   const shelves = [board.slice(0, 6), board.slice(6, 12), board.slice(12, 18)]
 
@@ -213,6 +213,19 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           >
             <strong>{time}</strong>
             <span>Tempo acabando!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {matchFeedback && (
+          <motion.div
+            className="match-feedback"
+            initial={{ opacity: 0, scale: 0.55, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.85, y: -25 }}
+          >
+            <Sparkles />
+            {matchFeedback}
           </motion.div>
         )}
       </AnimatePresence>
@@ -335,9 +348,11 @@ function App() {
   const [message, setMessage] = useState('Arraste ou clique em um produto para levar ao organizador.')
   const [result, setResult] = useState('lose')
   const [comboVisible, setComboVisible] = useState(false)
+  const [matchFeedback, setMatchFeedback] = useState(null)
   const timerRef = useRef(null)
   const matchTimesRef = useRef([])
   const comboTimeoutRef = useRef(null)
+  const matchFeedbackTimeoutRef = useRef(null)
 
   function start() {
     if (!name.trim()) return
@@ -350,6 +365,8 @@ function App() {
     setScore(0)
     setMatchingIds([])
     setComboVisible(false)
+    setMatchFeedback(null)
+    clearTimeout(matchFeedbackTimeoutRef.current)
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
     setScreen('game')
@@ -414,10 +431,14 @@ function App() {
       const ids = matched.map((product) => product.id)
       setTray(nextTray)
       setMatchingIds(ids)
+      const feedbackText = `Match 3! +${MATCH_POINTS}`
       setMessage(`Match 3: ${item.name}! +${MATCH_POINTS} pontos`)
+      setMatchFeedback(feedbackText)
+      clearTimeout(matchFeedbackTimeoutRef.current)
+      matchFeedbackTimeoutRef.current = setTimeout(() => setMatchFeedback(null), 1200)
       setScore((current) => current + MATCH_POINTS)
       registerMatch()
-      playSound('match')
+      playSound('combo')
 
       setTimeout(() => {
         setTray((current) => current.filter((product) => !ids.includes(product.id)))
@@ -488,6 +509,7 @@ function App() {
   useEffect(() => () => {
     clearInterval(timerRef.current)
     clearTimeout(comboTimeoutRef.current)
+    clearTimeout(matchFeedbackTimeoutRef.current)
   }, [])
 
   if (screen === 'start') return <StartScreen name={name} setName={setName} onStart={start} />
@@ -502,6 +524,7 @@ function App() {
       matchingIds={matchingIds}
       message={message}
       comboVisible={comboVisible}
+      matchFeedback={matchFeedback}
       finalCountdown={time <= 10 && time > 0}
       onSelect={selectSlot}
       onRestart={start}
