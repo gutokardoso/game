@@ -240,7 +240,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
                 </motion.div>
               )}
             </AnimatePresence>
-            <Trophy /><span>Pontos</span><strong>{score}</strong>
+            <Trophy /><strong>{score}</strong>
           </div>
         </header>
 
@@ -248,10 +248,6 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
           <p>{message}</p>
         </footer>
-
-        <section className="organizer-label">
-          <strong>Estoque</strong>
-        </section>
 
         <section className="stock-row">
           <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
