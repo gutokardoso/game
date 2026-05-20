@@ -1,7 +1,7 @@
 {
-  "name": "uau-goods-sort-sem-scroll-combo",
+  "name": "uau-goods-sort-mobile-6x6",
   "private": true,
-  "version": "5.4.0",
+  "version": "5.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
 const ROUND_TIME = 275
-const TRAY_SIZE = 7
+const TRAY_SIZE = 6
 const MATCH_POINTS = 150
 const COMBO_POINTS = 300
 const COMBO_WINDOW_MS = 5000
@@ -17,11 +17,14 @@ const PRODUCTS = [
   { type: 'pisos', name: 'Limpa Pisos', image: '/assets/products/limpa-pisos.png' },
 ]
 
+// 27 produtos no total, todos em múltiplos de 3.
+// 18 espaços visíveis: 3 prateleiras com 6 produtos cada.
+// Alguns espaços têm camadas ocultas.
 const PRODUCT_POOL = [
   ...Array(9).fill('amaciante'),
-  ...Array(9).fill('essencia'),
-  ...Array(9).fill('lava'),
-  ...Array(9).fill('pisos'),
+  ...Array(6).fill('essencia'),
+  ...Array(6).fill('lava'),
+  ...Array(6).fill('pisos'),
 ]
 
 function productByType(type) {
@@ -35,9 +38,11 @@ function shuffle(array) {
 function createBoard() {
   const mixed = shuffle(PRODUCT_POOL)
   const slots = []
-  for (let i = 0; i < 24; i++) {
-    const depth = i < 12 ? 2 : 1
+
+  for (let i = 0; i < 18; i++) {
+    const depth = i < 9 ? 2 : 1
     const layers = []
+
     for (let j = 0; j < depth; j++) {
       const type = mixed.pop()
       if (type) {
@@ -47,8 +52,10 @@ function createBoard() {
         })
       }
     }
+
     slots.push({ slotId: `slot-${i}`, layers })
   }
+
   return slots
 }
 
@@ -129,9 +136,9 @@ function TutorialPanel() {
     <aside className="tutorial">
       <img src="/assets/logo-uau.png" className="side-logo" />
       <div className="side-title">GOODS<br/>SORT</div>
-      <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens idênticos para o organizador.</p></div>
-      <div className="tip"><b>2</b><h3>Combo +300</h3><p>Faça 3 matchs consecutivos em até 5 segundos.</p></div>
-      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Todos os produtos têm pares de 3 para finalizar.</p></div>
+      <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens para o organizador.</p></div>
+      <div className="tip"><b>2</b><h3>Combo +300</h3><p>Faça 3 matchs em até 5 segundos.</p></div>
+      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Prateleiras com 6 produtos cada.</p></div>
     </aside>
   )
 }
@@ -154,7 +161,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
     <div className="shelf-cell">
       <div className="hidden-products">
         {hidden.map((item, index) => (
-          <div className="hidden-product" key={item.id} style={{ right: `${index * 10 + 7}px`, transform: `scale(${0.78 - index * 0.08})` }}>
+          <div className="hidden-product" key={item.id} style={{ right: `${index * 10 + 6}px`, transform: `scale(${0.78 - index * 0.08})` }}>
             <ProductImage item={item} dark />
           </div>
         ))}
@@ -179,7 +186,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
 
 function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, onSelect, onRestart }) {
   const [dragging, setDragging] = useState(null)
-  const shelves = [board.slice(0, 8), board.slice(8, 16), board.slice(16, 24)]
+  const shelves = [board.slice(0, 6), board.slice(6, 12), board.slice(12, 18)]
 
   function drop(event) {
     event.preventDefault()
@@ -241,7 +248,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
         <section className="organizer-label">
           <strong>Organizador</strong>
-          <span>Pontos só contam ao formar 3 iguais</span>
+          <span>6 espaços • pontos só no match 3</span>
         </section>
 
         <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
