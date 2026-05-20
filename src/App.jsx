@@ -1,49 +1,12 @@
 
-import { useEffect, useState } from 'react'
-const products=[
-{name:'Amaciante',image:'/products/amaciante.png'},
-{name:'Essência',image:'/products/essencia.png'},
-{name:'Lava-Roupas',image:'/products/lava_roupas.png'},
-{name:'Limpa Pisos',image:'/products/limpa_pisos.png'}
-]
-function randomProduct(){return products[Math.floor(Math.random()*products.length)]}
-export default function App(){
-const [score,setScore]=useState(0)
-const [time,setTime]=useState(45)
-const [target,setTarget]=useState(randomProduct())
-const [started,setStarted]=useState(false)
-useEffect(()=>{
-if(!started)return
-const timer=setInterval(()=>{
-setTime(prev=>{
-if(prev<=1){clearInterval(timer);setStarted(false);return 0}
-return prev-1
-})
-},1000)
-return()=>clearInterval(timer)
-},[started])
-function startGame(){setScore(0);setTime(45);setStarted(true);setTarget(randomProduct())}
-function handleClick(product){
-if(product.name===target.name){setScore(s=>s+10);setTarget(randomProduct())}
-else{setScore(s=>Math.max(0,s-5))}
-}
-return(
-<div style={{padding:'30px'}}>
-<h1 style={{color:'#d4af37',fontSize:'48px'}}>UAU Market Challenge</h1>
-<button onClick={startGame} style={{padding:'16px 32px',fontSize:'22px',background:'#d4af37',border:'none',borderRadius:'20px'}}>START GAME</button>
-<h2>Tempo: {time}s | Score: {score}</h2>
-<h2>Encontre: {target.name}</h2>
-<div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'20px'}}>
-{Array.from({length:20}).map((_,index)=>{
-const product=products[index%products.length]
-return(
-<button key={index} onClick={()=>handleClick(product)} style={{background:'#111',border:'1px solid #333',borderRadius:'24px',padding:'20px'}}>
-<img src={product.image} style={{height:'220px',objectFit:'contain'}} />
-<p style={{color:'white'}}>{product.name}</p>
-</button>
-)
-})}
-</div>
-</div>
-)
-}
+import React,{useEffect,useRef,useState}from'react';import{createRoot}from'react-dom/client';import{Clock,Trophy,User,RotateCcw,Sparkles}from'lucide-react';import{motion,AnimatePresence}from'framer-motion';import'./styles.css';
+const ROUND_TIME=45;
+const CATALOG=[{id:'amaciante',name:'Amaciante Concentrado',image:'/assets/products/amaciante.png',points:10},{id:'essencia',name:'Essência Concentrada',image:'/assets/products/essencia.png',points:10},{id:'lava',name:'Lava-Roupas Premium',image:'/assets/products/lava-roupas.png',points:10},{id:'piso',name:'Limpa Pisos',image:'/assets/products/limpa-pisos.png',points:10}];
+const SEQ=[CATALOG[2],CATALOG[0],CATALOG[1],CATALOG[3],CATALOG[0],CATALOG[3],CATALOG[2],CATALOG[0],CATALOG[1],CATALOG[2],CATALOG[1],CATALOG[3],CATALOG[0],CATALOG[2],CATALOG[1]];
+function makeItems(){return SEQ.map((p,i)=>({...p,uniqueId:`${p.id}-${i}-${Date.now()}`,removed:false}))}function best(){return Number(localStorage.getItem('uau-market-best-score')||0)}function saveBest(score){const b=best();if(score>b){localStorage.setItem('uau-market-best-score',String(score));return true}return false}
+function tone(type){try{const A=window.AudioContext||window.webkitAudioContext;const a=new A();const o=a.createOscillator();const g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=type==='success'?880:type==='finish'?440:190;o.type=type==='success'?'triangle':'sine';g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.08,a.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.18);o.start(a.currentTime);o.stop(a.currentTime+.2)}catch(e){}}
+function StartScreen({playerName,setPlayerName,onStart}){return <main className="screen start-screen"><div className="supermarket-bg"/><div className="gold-confetti"/><motion.section className="start-card" initial={{opacity:0,y:30,scale:.96}} animate={{opacity:1,y:0,scale:1}} transition={{duration:.6}}><img src="/assets/logo-uau.png" className="brand-logo" alt="UAU"/><div className="title-badge"><span>MARKET</span><strong>CHALLENGE</strong></div><p className="start-subtitle">Digite seu nome para começar</p><label className="name-field"><User size={30}/><input value={playerName} onChange={e=>setPlayerName(e.target.value)} placeholder="Seu nome" maxLength={22} autoFocus/></label><button className="primary-button" onClick={onStart}>Começar</button><div className="rules"><div><Clock size={28}/><span>45 segundos</span></div><div><Sparkles size={28}/><span>Toque nos produtos UAU</span></div><div><Trophy size={28}/><span>Marque pontos</span></div></div></motion.section></main>}
+function GameScreen({playerName,items,setItems,score,setScore,timeLeft,onRestart}){const[lastPoints,setLastPoints]=useState(null);function handleClick(item){if(item.removed)return;tone('success');setScore(c=>c+item.points);setLastPoints({id:item.uniqueId,value:item.points});setItems(cur=>cur.map(p=>p.uniqueId===item.uniqueId?{...p,removed:true}:p));setTimeout(()=>setLastPoints(null),650)}const shelves=[items.slice(0,5),items.slice(5,10),items.slice(10,15)];return <main className="screen game-screen"><header className="game-header"><div className="logo-mini"><img src="/assets/logo-uau.png" alt="UAU"/></div><div className="hud-pill"><Clock size={34}/><strong>{String(timeLeft).padStart(2,'0')}</strong></div><div className="score-card"><span>Pontos</span><strong>{score}</strong></div><button className="restart-button" onClick={onRestart}><RotateCcw size={24}/>Reiniciar</button></header><section className="player-bar"><span>Jogador: <strong>{playerName}</strong></span><span>Toque nos produtos UAU para pontuar. O espaço fica vazio após o clique.</span></section><section className="shelves-area">{shelves.map((shelf,si)=><div className="shelf-block" key={si}><div className="products-row">{shelf.map(item=><button className={`product-slot ${item.removed?'empty':''}`} key={item.uniqueId} onClick={()=>handleClick(item)} aria-label={item.name}><AnimatePresence mode="wait">{!item.removed?<motion.div className="product-content" key="visible" initial={{scale:.85,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:.15,opacity:0,rotate:-10}} transition={{duration:.25}}><img src={item.image} alt={item.name}/><span>{item.name}</span>{lastPoints?.id===item.uniqueId&&<motion.em className="points-pop" initial={{opacity:0,y:20,scale:.7}} animate={{opacity:1,y:-40,scale:1.2}} exit={{opacity:0}}>+{lastPoints.value}</motion.em>}</motion.div>:<motion.div key="empty" className="empty-space" initial={{opacity:0}} animate={{opacity:1}}>vazio</motion.div>}</AnimatePresence></button>)}</div><div className="shelf-board"><span/><span/><span/></div></div>)}</section></main>}
+function FinalScreen({playerName,score,bestScore,isRecord,onRestart}){return <main className="screen final-screen"><div className="gold-burst"/><motion.section className="final-card" initial={{opacity:0,scale:.85,y:25}} animate={{opacity:1,scale:1,y:0}}><img src="/assets/logo-uau.png" className="final-logo" alt="UAU"/><h1>Tempo esgotado!</h1><p>{playerName}, você fez</p><div className="final-score">{score}</div><strong className="points-label">pontos</strong>{isRecord?<div className="record-badge">🏆 Novo recorde!</div>:<div className="record-badge muted">Melhor pontuação: {bestScore}</div>}<button className="primary-button" onClick={onRestart}>Jogar novamente</button></motion.section></main>}
+function App(){const[playerName,setPlayerName]=useState('');const[screen,setScreen]=useState('start');const[items,setItems]=useState(makeItems());const[score,setScore]=useState(0);const[timeLeft,setTimeLeft]=useState(ROUND_TIME);const[bestScore,setBestScore]=useState(best());const[isRecord,setIsRecord]=useState(false);const timerRef=useRef(null);function startGame(){if(!playerName.trim())return;clearInterval(timerRef.current);setItems(makeItems());setScore(0);setTimeLeft(ROUND_TIME);setIsRecord(false);setScreen('game');timerRef.current=setInterval(()=>{setTimeLeft(c=>{if(c<=1){clearInterval(timerRef.current);return 0}if(c<=6)tone('tick');return c-1})},1000)}useEffect(()=>{if(screen==='game'&&timeLeft===0){tone('finish');const record=saveBest(score);const currentBest=Math.max(best(),score);setBestScore(currentBest);setIsRecord(record);setTimeout(()=>setScreen('final'),300)}},[timeLeft,screen,score]);useEffect(()=>()=>clearInterval(timerRef.current),[]);if(screen==='start')return <StartScreen playerName={playerName} setPlayerName={setPlayerName} onStart={startGame}/>;if(screen==='final')return <FinalScreen playerName={playerName} score={score} bestScore={bestScore} isRecord={isRecord} onRestart={startGame}/>;return <GameScreen playerName={playerName} items={items} setItems={setItems} score={score} setScore={setScore} timeLeft={timeLeft} onRestart={startGame}/>}
+createRoot(document.getElementById('root')).render(<App/>);
