@@ -220,10 +220,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
       <section className="play-area">
         <header className="top-hud">
-          <button className="cleaner-top" onClick={onClearTray}>
-            <Eraser />
-            <span>Limpar estoque</span>
-          </button>
+          
           <button className="restart-top" onClick={onRestart}>
             <RotateCcw />
             <span>Reiniciar</span>
@@ -247,8 +244,17 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           </div>
         </header>
 
+        <footer className="slogan top-slogan">
+          <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
+          <p>{message}</p>
+        </footer>
+
         <section className="organizer-label">
           <strong>Estoque</strong>
+          <button className="stock-clean-button" onClick={onClearTray}>
+            <Eraser />
+            Limpar
+          </button>
         </section>
 
         <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
@@ -295,10 +301,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           ))}
         </section>
 
-        <footer className="slogan">
-          <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
-          <p>{message}</p>
-        </footer>
+        
       </section>
     </main>
   )

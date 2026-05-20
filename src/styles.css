@@ -57,3 +57,93 @@
 @media(max-width:430px){
   .tray-wrapper{width:74%}
 }
+
+
+/* v4 adjustments */
+.stock-clean-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border:1.5px solid #d6a935;
+  border-radius:999px;
+  padding:6px 12px;
+  background:linear-gradient(180deg,rgba(22,22,22,.92),rgba(3,3,3,.95));
+  color:#ffd86b;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  box-shadow:0 0 18px rgba(214,169,53,.14), inset 0 0 15px rgba(255,255,255,.04);
+}
+
+.stock-clean-button svg{
+  width:16px;
+  height:16px;
+}
+
+.organizer-label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.top-slogan{
+  order:0!important;
+  margin-top:0!important;
+  margin-bottom:6px!important;
+}
+
+.organizer-label{
+  order:1!important;
+}
+
+.tray-wrapper{
+  order:2!important;
+}
+
+.cabinet{
+  order:3!important;
+}
+
+.top-hud{
+  order:4!important;
+}
+
+/* remove mobile top info bar */
+@media(max-width:900px){
+  .tutorial{
+    display:none!important;
+  }
+
+  .play-area{
+    height:100dvh!important;
+  }
+
+  .top-slogan{
+    height:auto!important;
+    margin-bottom:4px!important;
+  }
+
+  .top-slogan strong{
+    font-size:13px!important;
+  }
+
+  .top-slogan p{
+    font-size:9px!important;
+  }
+
+  .organizer-label{
+    margin-top:0!important;
+  }
+
+  .stock-clean-button{
+    font-size:9px!important;
+    padding:5px 9px!important;
+  }
+
+  .stock-clean-button svg{
+    width:12px!important;
+    height:12px!important;
+  }
+}
