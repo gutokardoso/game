@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, RotateCcw, Shuffle, Lightbulb, User, ShoppingCart, Trophy, Sparkles } from 'lucide-react'
+import { Clock, RotateCcw, Shuffle, Lightbulb, User, ShoppingCart, Trophy, Sparkles, Eraser, Star } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
