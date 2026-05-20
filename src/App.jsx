@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
 const ROUND_TIME = 60
-const TRAY_SIZE = 6
+const TRAY_SIZE = 3
 const MATCH_POINTS = 150
 const COMBO_POINTS = 300
 const COMBO_WINDOW_MS = 5000
@@ -265,7 +265,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
         </section>
 
         <section className="organizer-label">
-          <strong>Organizador</strong>
+          <strong>Estoque</strong>
           <span>6 espaços • pontos só no match 3</span>
         </section>
 
