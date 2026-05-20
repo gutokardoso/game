@@ -1727,3 +1727,124 @@
     font-size:34px;
   }
 }
+
+
+/* v16 - tela inicial exatamente no layout anexado */
+.exact-image-start-screen{
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  position:relative!important;
+  background:#000!important;
+  display:block!important;
+}
+
+.exact-layout-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  z-index:0;
+  pointer-events:none;
+}
+
+.exact-layout-actions{
+  position:absolute;
+  z-index:5;
+  left:50%;
+  top:62.2%;
+  transform:translateX(-50%);
+  width:min(67vw,610px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3.2vh;
+}
+
+.exact-layout-input{
+  width:100%;
+  height:7.4vh;
+  min-height:54px;
+  max-height:84px;
+  display:flex;
+  align-items:center;
+}
+
+.exact-layout-input input{
+  width:100%;
+  height:100%;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:white;
+  font-size:min(4vw,34px);
+  font-weight:500;
+  padding-left:17%;
+}
+
+.exact-layout-input input::placeholder{
+  color:rgba(255,255,255,.42);
+}
+
+.exact-layout-start-button{
+  width:78%;
+  height:7.6vh;
+  min-height:58px;
+  max-height:86px;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:transparent;
+  cursor:pointer;
+}
+
+@media(max-width:900px){
+  .exact-layout-actions{
+    top:62.6%;
+    width:67vw;
+    gap:2.9vh;
+  }
+
+  .exact-layout-input{
+    height:6.4vh;
+    min-height:44px;
+  }
+
+  .exact-layout-input input{
+    font-size:4.7vw;
+    padding-left:17%;
+  }
+
+  .exact-layout-start-button{
+    height:6.7vh;
+    min-height:48px;
+  }
+}
+
+@media(max-width:520px){
+  .exact-layout-actions{
+    top:62.4%;
+    width:67vw;
+    gap:2.6vh;
+  }
+
+  .exact-layout-input{
+    height:5.7vh;
+    min-height:38px;
+  }
+
+  .exact-layout-input input{
+    font-size:5.2vw;
+    padding-left:17%;
+  }
+
+  .exact-layout-start-button{
+    height:6.2vh;
+    min-height:42px;
+  }
+}
