@@ -2600,3 +2600,38 @@
     height:38px!important;
   }
 }
+
+
+/* v26 ranking no yellow borders */
+.ranking-box{
+  border:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+.ranking-list{
+  border:none!important;
+  background:transparent!important;
+}
+
+.ranking-row{
+  background:transparent!important;
+  border-left:none!important;
+  border-right:none!important;
+  border-top:none!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+.final-buttons-row{
+  width:100%!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  align-items:center!important;
+  margin-top:8px!important;
+}
+
+.final-buttons-row .gold-button{
+  width:100%!important;
+}
