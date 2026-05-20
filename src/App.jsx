@@ -366,8 +366,9 @@ function EndScreen({ name, score, result, restart, ranking }) {
             ) : (
               ranking.map((player, index) => (
                 <div className="ranking-row" key={`${player.name}-${index}`}>
-                  <strong>{index + 1}. {player.name}</strong>
-                  <span>{player.score} pts</span>
+                  <span className="ranking-position">{index + 1}</span>
+                  <span className="ranking-name">{player.name}</span>
+                  <span className="ranking-score">{player.score} pts</span>
                 </div>
               ))
             )}
