@@ -2692,3 +2692,32 @@
     padding:2px 0!important;
   }
 }
+
+
+/* v28 ranking spacing and alignment */
+.ranking-row{
+  padding:1px 0!important;
+  border-bottom:0.5px solid #d6a935!important;
+  grid-template-columns:32px 1fr auto!important;
+  column-gap:6px!important;
+  align-items:center!important;
+}
+
+.ranking-position{
+  text-align:left!important;
+  justify-self:start!important;
+}
+
+.ranking-position::after{
+  content:""!important;
+}
+
+.ranking-name{
+  text-align:left!important;
+  justify-self:start!important;
+}
+
+.ranking-score{
+  text-align:right!important;
+  justify-self:end!important;
+}
