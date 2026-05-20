@@ -376,7 +376,26 @@ function App() {
           return 0
         }
         if (current <= 10) {
-          playSound('error')
+          try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext
+            const ctx = new AudioContext()
+
+            const osc = ctx.createOscillator()
+            const gain = ctx.createGain()
+
+            osc.connect(gain)
+            gain.connect(ctx.destination)
+
+            osc.type = 'square'
+            osc.frequency.value = current <= 5 ? 980 : 720
+
+            gain.gain.setValueAtTime(0.001, ctx.currentTime)
+            gain.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime + 0.02)
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28)
+
+            osc.start()
+            osc.stop(ctx.currentTime + 0.3)
+          } catch {}
         }
         return current - 1
       })
