@@ -2108,3 +2108,116 @@
     font-size:min(14vw,70px)!important;
   }
 }
+
+
+/* v19 start input + button image */
+.exact-layout-input{
+  position:relative!important;
+  width:100%!important;
+  height:7.4vh!important;
+  min-height:54px!important;
+  max-height:84px!important;
+  display:flex!important;
+  align-items:center!important;
+  border:2px solid #f0b329!important;
+  border-radius:18px!important;
+  background:rgba(0,0,0,.72)!important;
+  box-shadow:
+    0 0 24px rgba(255,191,47,.18),
+    inset 0 0 18px rgba(255,255,255,.04)!important;
+  overflow:hidden!important;
+}
+
+.exact-layout-input:before{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center,#fff 0 32%,transparent 34%),
+    linear-gradient(#fff,#fff);
+  opacity:.9;
+  clip-path:path("M12 2C8.69 2 6 4.69 6 8C6 11.31 8.69 14 12 14C15.31 14 18 11.31 18 8C18 4.69 15.31 2 12 2ZM12 16C7.99 16 0 18.01 0 22V24H24V22C24 18.01 16.01 16 12 16Z");
+}
+
+.exact-layout-input input{
+  width:100%!important;
+  height:100%!important;
+  border:0!important;
+  outline:none!important;
+  background:transparent!important;
+  color:white!important;
+  font-size:min(2.5vw,26px)!important;
+  font-weight:500!important;
+  padding-left:70px!important;
+}
+
+.exact-layout-input input::placeholder{
+  color:rgba(255,255,255,.42)!important;
+  font-size:.9em!important;
+}
+
+.exact-layout-start-button{
+  width:78%!important;
+  height:7.6vh!important;
+  min-height:58px!important;
+  max-height:86px!important;
+  border:0!important;
+  outline:none!important;
+  cursor:pointer!important;
+  background:url('/assets/btn-comecar.png') center center / 100% 100% no-repeat!important;
+  color:transparent!important;
+  box-shadow:none!important;
+}
+
+@media(max-width:900px){
+  .exact-layout-input{
+    height:6.4vh!important;
+    min-height:44px!important;
+    border-radius:12px!important;
+  }
+
+  .exact-layout-input:before{
+    left:14px;
+    width:18px;
+    height:18px;
+  }
+
+  .exact-layout-input input{
+    font-size:18px!important;
+    padding-left:52px!important;
+  }
+
+  .exact-layout-start-button{
+    height:6.7vh!important;
+    min-height:48px!important;
+  }
+}
+
+@media(max-width:520px){
+  .exact-layout-input{
+    height:5.7vh!important;
+    min-height:38px!important;
+    border-width:1.5px!important;
+  }
+
+  .exact-layout-input:before{
+    left:12px;
+    width:16px;
+    height:16px;
+  }
+
+  .exact-layout-input input{
+    font-size:15px!important;
+    padding-left:46px!important;
+  }
+
+  .exact-layout-start-button{
+    height:6.2vh!important;
+    min-height:42px!important;
+  }
+}
