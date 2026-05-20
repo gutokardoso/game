@@ -14,24 +14,48 @@ const PRODUCTS = [
   { type: 'pisos', name: 'Limpa Pisos', image: '/assets/products/limpa-pisos.png' },
 ]
 
-const LAYOUT = [
-  ['amaciante','lava','essencia'], ['amaciante','pisos','essencia'], ['essencia','lava','amaciante'], ['pisos','essencia','lava'], ['lava','pisos','amaciante'], ['pisos','lava','amaciante'], ['essencia','amaciante','pisos'], ['lava','essencia','pisos'],
-  ['essencia','pisos','lava'], ['pisos','amaciante','lava'], ['lava','essencia','amaciante'], ['amaciante','pisos','essencia'], ['pisos','lava','essencia'], ['essencia','amaciante','pisos'], ['lava','pisos','amaciante'], ['amaciante','essencia','lava'],
-  ['lava','amaciante','pisos'], ['pisos','essencia','amaciante'], ['essencia','lava','pisos'], ['amaciante','pisos','lava'], ['lava','essencia','amaciante'], ['pisos','lava','essencia'], ['essencia','amaciante','pisos'], ['amaciante','lava','pisos'],
+// 36 produtos no total: 9 de cada tipo. Cada quantidade é múltiplo de 3,
+// para garantir que todos possam ser removidos por Match 3 até o final.
+const PRODUCT_POOL = [
+  ...Array(9).fill('amaciante'),
+  ...Array(9).fill('essencia'),
+  ...Array(9).fill('lava'),
+  ...Array(9).fill('pisos'),
 ]
 
 function productByType(type) {
   return PRODUCTS.find((product) => product.type === type)
 }
 
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5)
+}
+
 function createBoard() {
-  return LAYOUT.map((stack, index) => ({
-    slotId: `slot-${index}`,
-    layers: stack.map((type, layer) => ({
-      ...productByType(type),
-      id: `${index}-${type}-${layer}-${Math.random().toString(36).slice(2)}`
-    }))
-  }))
+  const mixed = shuffle(PRODUCT_POOL)
+  const slots = []
+
+  for (let i = 0; i < 24; i++) {
+    const depth = i < 12 ? 2 : 1
+    const layers = []
+
+    for (let j = 0; j < depth; j++) {
+      const type = mixed.pop()
+      if (type) {
+        layers.push({
+          ...productByType(type),
+          id: `${i}-${type}-${j}-${Math.random().toString(36).slice(2)}`
+        })
+      }
+    }
+
+    slots.push({
+      slotId: `slot-${i}`,
+      layers
+    })
+  }
+
+  return slots
 }
 
 function topItem(slot) {
@@ -91,7 +115,7 @@ function TutorialPanel() {
       <div className="side-title">GOODS<br/>SORT</div>
       <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens idênticos para o organizador.</p></div>
       <div className="tip"><b>2</b><h3>Camadas ocultas</h3><p>Os produtos de trás ficam visíveis, porém mais escuros.</p></div>
-      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Esvazie todas as prateleiras antes do tempo acabar.</p></div>
+      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Todos os produtos têm pares de 3 para finalizar o jogo.</p></div>
     </aside>
   )
 }
@@ -114,7 +138,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
     <div className="shelf-cell">
       <div className="hidden-products">
         {hidden.map((item, index) => (
-          <div className="hidden-product" key={item.id} style={{ right: `${index * 14 + 8}px`, transform: `scale(${0.82 - index * 0.1})` }}>
+          <div className="hidden-product" key={item.id} style={{ right: `${index * 12 + 8}px`, transform: `scale(${0.78 - index * 0.08})` }}>
             <ProductImage item={item} dark />
           </div>
         ))}
@@ -128,7 +152,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
           onDragStart(slot.slotId)
         }}
         onClick={() => onSelect(slot.slotId)}
-        whileHover={{ scale: 1.06 }}
+        whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.92 }}
       >
         <ProductImage item={front} />
@@ -186,7 +210,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, 
 
         <section className="organizer-label">
           <strong>Organizador</strong>
-          <span>Arraste ou clique nos produtos para juntar 3 iguais</span>
+          <span>Pontos só contam ao formar 3 iguais</span>
         </section>
 
         <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
@@ -312,7 +336,7 @@ function App() {
       const ids = matched.map((product) => product.id)
       setTray(nextTray)
       setMatchingIds(ids)
-      setMessage(`Brilho ativado: 3 ${item.name}!`)
+      setMessage(`Match 3: ${item.name}! +150 pontos`)
       setScore((current) => current + 150)
       playSound('match')
 
@@ -322,8 +346,7 @@ function App() {
       }, 820)
     } else {
       setTray(nextTray)
-      setScore((current) => current + 10)
-      setMessage(`${item.name} adicionado ao organizador.`)
+      setMessage(`${item.name} adicionado ao organizador. Junte 3 iguais para pontuar.`)
       playSound('click')
     }
   }
