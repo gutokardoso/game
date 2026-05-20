@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, Trophy, User, RotateCcw, Sparkles, PackageCheck } from 'lucide-react'
+import { Clock, Trophy, User, RotateCcw, Sparkles, PackageCheck, Layers } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
-const ROUND_TIME = 90
+const ROUND_TIME = 120
 const TRAY_SIZE = 7
 
 const PRODUCTS = [
@@ -14,19 +14,38 @@ const PRODUCTS = [
   { type: 'pisos', name: 'Limpa Pisos', image: '/assets/products/limpa-pisos.png' },
 ]
 
-function createBoard() {
-  const pool = []
-  PRODUCTS.forEach((product) => {
-    for (let i = 0; i < 6; i++) {
-      pool.push({
-        ...product,
-        id: `${product.type}-${i}-${Math.random().toString(36).slice(2)}`,
-        cleared: false,
-      })
-    }
-  })
+const LAYER_TEMPLATE = [
+  ['lava', 'amaciante', 'essencia'],
+  ['pisos', 'lava', 'amaciante'],
+  ['essencia', 'pisos', 'lava'],
+  ['amaciante', 'essencia', 'pisos'],
+  ['lava', 'pisos', 'amaciante'],
+  ['essencia', 'amaciante', 'lava'],
+  ['pisos', 'essencia', 'amaciante'],
+  ['lava', 'amaciante', 'pisos'],
+  ['essencia', 'pisos', 'lava'],
+  ['amaciante', 'lava', 'essencia'],
+  ['pisos', 'amaciante', 'essencia'],
+  ['lava', 'pisos', 'amaciante'],
+]
 
-  return pool.sort(() => Math.random() - 0.5)
+function productByType(type) {
+  return PRODUCTS.find((product) => product.type === type)
+}
+
+function createBoard() {
+  return LAYER_TEMPLATE.map((stack, slotIndex) => ({
+    slotId: `slot-${slotIndex}`,
+    layers: stack.map((type, layerIndex) => ({
+      ...productByType(type),
+      id: `slot-${slotIndex}-${type}-${layerIndex}-${Math.random().toString(36).slice(2)}`,
+    })),
+  }))
+}
+
+function getTopItem(slot) {
+  if (!slot.layers.length) return null
+  return slot.layers[slot.layers.length - 1]
 }
 
 function playTone(kind) {
@@ -59,7 +78,7 @@ function StartScreen({ playerName, setPlayerName, startGame }) {
         </div>
 
         <p className="subtitle">
-          Junte 3 produtos iguais no organizador para fazê-los sumir.
+          Remova os produtos da frente, revele as camadas ocultas e combine 3 iguais.
         </p>
 
         <label className="input-box">
@@ -76,35 +95,62 @@ function StartScreen({ playerName, setPlayerName, startGame }) {
 
         <div className="rule-grid">
           <div><PackageCheck /> Combine 3 iguais</div>
-          <div><Clock /> 90 segundos</div>
-          <div><Trophy /> Libere tudo</div>
+          <div><Layers /> Camadas ocultas</div>
+          <div><Trophy /> Limpe tudo</div>
         </div>
       </section>
     </main>
   )
 }
 
-function ProductCard({ item, onClick }) {
-  if (!item || item.cleared) {
+function ShelfSlot({ slot, onSelect }) {
+  const top = getTopItem(slot)
+  const hiddenCount = Math.max(0, slot.layers.length - 1)
+
+  if (!top) {
     return <div className="slot empty"><span>livre</span></div>
   }
 
   return (
     <motion.button
       className="slot product"
-      onClick={() => onClick(item)}
+      onClick={() => onSelect(slot.slotId)}
       whileTap={{ scale: 0.9 }}
       whileHover={{ scale: 1.04 }}
       layout
     >
-      <img src={item.image} />
-      <b>{item.name}</b>
+      <div className="hidden-stack">
+        {slot.layers.slice(0, -1).map((layer, index) => (
+          <img
+            key={layer.id}
+            src={layer.image}
+            style={{ transform: `translate(${index * 4}px, ${index * -4}px) scale(${0.78 + index * 0.04})` }}
+          />
+        ))}
+      </div>
+
+      <motion.div
+        key={top.id}
+        initial={{ scale: 0.65, opacity: 0, y: -20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.1, opacity: 0 }}
+        className="front-product"
+      >
+        <img src={top.image} />
+        <b>{top.name}</b>
+      </motion.div>
+
+      {hiddenCount > 0 && (
+        <div className="layer-badge">
+          +{hiddenCount}
+        </div>
+      )}
     </motion.button>
   )
 }
 
-function GameScreen({ playerName, board, tray, score, time, moves, message, selectItem, restart }) {
-  const shelves = [board.slice(0, 8), board.slice(8, 16), board.slice(16, 24)]
+function GameScreen({ playerName, board, tray, score, time, moves, message, selectSlot, restart }) {
+  const shelves = [board.slice(0, 4), board.slice(4, 8), board.slice(8, 12)]
 
   return (
     <main className="screen game-screen">
@@ -117,7 +163,7 @@ function GameScreen({ playerName, board, tray, score, time, moves, message, sele
 
       <div className="mission">
         <span>Jogador: <b>{playerName}</b></span>
-        <strong>Missão: junte 3 produtos idênticos no organizador para liberar espaço.</strong>
+        <strong>Missão: toque no produto da frente, revele os ocultos e combine 3 iguais.</strong>
         <span>Movimentos: {moves}</span>
       </div>
 
@@ -125,8 +171,8 @@ function GameScreen({ playerName, board, tray, score, time, moves, message, sele
         {shelves.map((shelf, shelfIndex) => (
           <div className="shelf" key={shelfIndex}>
             <div className="products-grid">
-              {shelf.map((item) => (
-                <ProductCard key={item.id} item={item} onClick={selectItem} />
+              {shelf.map((slot) => (
+                <ShelfSlot key={slot.slotId} slot={slot} onSelect={selectSlot} />
               ))}
             </div>
             <div className="wood-line" />
@@ -167,7 +213,7 @@ function EndScreen({ playerName, score, result, restart }) {
     <main className="screen end-screen">
       <section className="end-card">
         <img src="/assets/logo-uau.png" />
-        <h1>{result === 'win' ? 'Prateleiras organizadas!' : 'Fim de jogo!'}</h1>
+        <h1>{result === 'win' ? 'Prateleiras limpas!' : 'Fim de jogo!'}</h1>
         <p>{playerName}, você fez</p>
         <div className="big-score">{score}</div>
         <strong>pontos</strong>
@@ -185,7 +231,7 @@ function App() {
   const [score, setScore] = useState(0)
   const [time, setTime] = useState(ROUND_TIME)
   const [moves, setMoves] = useState(0)
-  const [message, setMessage] = useState('Toque em um produto da prateleira.')
+  const [message, setMessage] = useState('Toque nos produtos da frente para revelar os ocultos.')
   const [result, setResult] = useState('lose')
   const timerRef = useRef(null)
 
@@ -197,7 +243,7 @@ function App() {
     setScore(0)
     setTime(ROUND_TIME)
     setMoves(0)
-    setMessage('Combine 3 produtos iguais.')
+    setMessage('Combine 3 produtos iguais no organizador.')
     setResult('lose')
     setScreen('game')
 
@@ -214,60 +260,70 @@ function App() {
     }, 1000)
   }
 
-  function selectItem(item) {
+  function selectSlot(slotId) {
     if (screen !== 'game') return
+
     if (tray.length >= TRAY_SIZE) {
       playTone('error')
-      setMessage('Organizador cheio! Faça uma combinação de 3.')
+      setMessage('Organizador cheio! Combine 3 iguais antes de continuar.')
       return
     }
 
-    const nextTray = [...tray, item]
-    const same = nextTray.filter((trayItem) => trayItem.type === item.type)
+    const selectedSlot = board.find((slot) => slot.slotId === slotId)
+    const topItem = getTopItem(selectedSlot)
+
+    if (!topItem) return
+
+    const nextTray = [...tray, topItem]
+    const same = nextTray.filter((item) => item.type === topItem.type)
 
     setBoard((current) =>
-      current.map((product) =>
-        product.id === item.id ? { ...product, cleared: true } : product
+      current.map((slot) =>
+        slot.slotId === slotId
+          ? { ...slot, layers: slot.layers.slice(0, -1) }
+          : slot
       )
     )
 
     setMoves((current) => current + 1)
 
     if (same.length >= 3) {
+      const idsToRemove = same.slice(0, 3).map((item) => item.id)
+      const cleanedTray = nextTray.filter((item) => !idsToRemove.includes(item.id))
       playTone('match')
-      const idsToRemove = same.slice(0, 3).map((trayItem) => trayItem.id)
-      const cleanedTray = nextTray.filter((trayItem) => !idsToRemove.includes(trayItem.id))
       setTray(cleanedTray)
-      setScore((current) => current + 100)
-      setMessage(`Match 3: ${item.name}! +100 pontos`)
+      setScore((current) => current + 150)
+      setMessage(`Combinação tripla: ${topItem.name}! +150 pontos`)
     } else {
       playTone('click')
       setTray(nextTray)
       setScore((current) => current + 10)
-      setMessage(`${item.name} movido para o organizador.`)
+      setMessage(`${topItem.name} movido. ${selectedSlot.layers.length - 1} camada(s) oculta(s) restante(s).`)
     }
   }
 
   useEffect(() => {
     if (screen !== 'game') return
 
-    const remaining = board.filter((item) => !item.cleared).length
+    const remaining = board.reduce((total, slot) => total + slot.layers.length, 0)
 
     if (remaining === 0) {
       clearInterval(timerRef.current)
       setScore((current) => current + time * 5)
       setResult('win')
-      setTimeout(() => setScreen('end'), 450)
+      setTimeout(() => setScreen('end'), 550)
     }
 
     if (tray.length >= TRAY_SIZE) {
-      const hasPossibleMatch = PRODUCTS.some((product) =>
+      const hasMatch = PRODUCTS.some((product) =>
         tray.filter((item) => item.type === product.type).length >= 3
       )
-      if (!hasPossibleMatch) {
+
+      if (!hasMatch) {
         clearInterval(timerRef.current)
         setResult('lose')
-        setTimeout(() => setScreen('end'), 450)
+        setMessage('Organizador cheio. Fim de jogo.')
+        setTimeout(() => setScreen('end'), 550)
       }
     }
   }, [board, tray, screen, time])
@@ -293,7 +349,7 @@ function App() {
       time={time}
       moves={moves}
       message={message}
-      selectItem={selectItem}
+      selectSlot={selectSlot}
       restart={startGame}
     />
   )
