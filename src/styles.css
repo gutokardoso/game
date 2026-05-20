@@ -147,3 +147,185 @@
     height:12px!important;
   }
 }
+
+
+/* v5 refinements */
+.organizer-label{
+  width:min(650px,72%)!important;
+  justify-content:flex-start!important;
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+.tray-actions-row{
+  display:flex;
+}
+
+/* align estoque to the left */
+.tray-wrapper{
+  margin-left:0!important;
+  margin-right:auto!important;
+}
+
+/* button beside stock box visual relationship */
+.stock-clean-button{
+  height:100%;
+  min-height:42px;
+  align-self:stretch;
+}
+
+/* reduce shelves to create breathing room */
+.cabinet{
+  max-height:calc(100dvh - 255px);
+}
+
+.shelf-row{
+  padding-top:5px!important;
+  padding-bottom:13px!important;
+}
+
+.product-image img{
+  height:72px!important;
+  max-height:72px!important;
+}
+
+.tray-image img{
+  height:72px!important;
+  max-height:72px!important;
+}
+
+.tray-cell{
+  height:80px!important;
+}
+
+.slogan{
+  height:30px!important;
+}
+
+.top-slogan{
+  margin-bottom:3px!important;
+}
+
+@media(max-width:900px){
+  .organizer-label{
+    width:100%!important;
+    justify-content:flex-start!important;
+    gap:8px!important;
+    height:24px!important;
+  }
+
+  .tray-wrapper{
+    width:calc(100% - 74px)!important;
+    margin-left:0!important;
+    display:inline-block!important;
+    vertical-align:top!important;
+  }
+
+  .organizer-label .stock-clean-button{
+    height:24px!important;
+    min-height:24px!important;
+    padding:3px 8px!important;
+    font-size:9px!important;
+  }
+
+  .cabinet{
+    max-height:calc(100dvh - 235px)!important;
+    flex:.88 1 auto!important;
+  }
+
+  .shelf-row{
+    padding-top:4px!important;
+    padding-bottom:10px!important;
+  }
+
+  .product-image img{
+    height:min(7.7dvh,54px)!important;
+    max-height:min(7.7dvh,54px)!important;
+  }
+
+  .tray-cell{
+    height:min(8.2dvh,55px)!important;
+  }
+
+  .tray-image img{
+    height:min(7.6dvh,50px)!important;
+    max-height:min(7.6dvh,50px)!important;
+  }
+
+  .top-hud{
+    height:40px!important;
+  }
+
+  .top-slogan strong{
+    font-size:12px!important;
+  }
+
+  .top-slogan p{
+    font-size:8.5px!important;
+  }
+
+  .slogan{
+    height:24px!important;
+  }
+}
+
+@media(max-width:430px){
+  .cabinet{
+    max-height:calc(100dvh - 225px)!important;
+  }
+
+  .product-image img{
+    height:min(7.2dvh,48px)!important;
+    max-height:min(7.2dvh,48px)!important;
+  }
+
+  .tray-cell{
+    height:min(7.8dvh,50px)!important;
+  }
+
+  .tray-image img{
+    height:min(7.1dvh,46px)!important;
+    max-height:min(7.1dvh,46px)!important;
+  }
+}
+
+.stock-row{
+  order:2!important;
+  display:flex;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:8px;
+  width:min(760px,78%);
+  margin:0 auto 0 0;
+}
+
+.stock-row .tray-wrapper{
+  width:min(650px,calc(100% - 112px))!important;
+}
+
+.stock-row .stock-clean-button{
+  width:104px;
+  min-width:104px;
+  margin:0;
+}
+
+.tray-wrapper{
+  order:initial!important;
+}
+
+@media(max-width:900px){
+  .stock-row{
+    width:100%;
+    gap:6px;
+  }
+
+  .stock-row .tray-wrapper{
+    width:calc(100% - 78px)!important;
+  }
+
+  .stock-row .stock-clean-button{
+    width:72px;
+    min-width:72px;
+    height:auto!important;
+  }
+}

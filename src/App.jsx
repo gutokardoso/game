@@ -251,36 +251,38 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
         <section className="organizer-label">
           <strong>Estoque</strong>
+        </section>
+
+        <section className="stock-row">
+          <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
+            <div className="tray-grid">
+              {Array.from({ length: TRAY_SIZE }).map((_, index) => {
+                const item = tray[index]
+                const isMatch = item && matchingIds.includes(item.id)
+                return (
+                  <div className={isMatch ? 'tray-cell match' : 'tray-cell'} key={index}>
+                    <AnimatePresence>
+                      {item && (
+                        <motion.div
+                          className="tray-product"
+                          key={item.id}
+                          initial={{ opacity: 0, y: -22, scale: 0.4 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0 }}
+                        >
+                          <ProductImage item={item} tray />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
           <button className="stock-clean-button" onClick={onClearTray}>
             <Eraser />
             Limpar
           </button>
-        </section>
-
-        <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
-          <div className="tray-grid">
-            {Array.from({ length: TRAY_SIZE }).map((_, index) => {
-              const item = tray[index]
-              const isMatch = item && matchingIds.includes(item.id)
-              return (
-                <div className={isMatch ? 'tray-cell match' : 'tray-cell'} key={index}>
-                  <AnimatePresence>
-                    {item && (
-                      <motion.div
-                        className="tray-product"
-                        key={item.id}
-                        initial={{ opacity: 0, y: -22, scale: 0.4 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                      >
-                        <ProductImage item={item} tray />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )
-            })}
-          </div>
         </section>
 
         <section className="cabinet">
@@ -359,10 +361,14 @@ function App() {
     timerRef.current = setInterval(() => {
       setTime((current) => {
         if (current <= 1) {
+          playSound('champion')
           clearInterval(timerRef.current)
           setResult('lose')
           setScreen('end')
           return 0
+        }
+        if (current <= 10) {
+          playSound('error')
         }
         return current - 1
       })
