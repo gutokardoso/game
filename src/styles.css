@@ -1134,7 +1134,7 @@
 
 @media(max-width:900px){
   .tip h3{
-    font-size:11px!important;
+    font-size:14px!important;
     line-height:1.05!important;
     margin-bottom:3px!important;
   }
@@ -1242,7 +1242,7 @@
   }
 
   .tip h3{
-    font-size:13px!important;
+    font-size:16px!important;
     line-height:1!important;
     margin-bottom:4px!important;
     font-weight:950!important;
@@ -1285,7 +1285,7 @@
   }
 
   .tip h3{
-    font-size:11px!important;
+    font-size:14px!important;
   }
 
   .tip p{
