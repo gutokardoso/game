@@ -4,7 +4,7 @@ import { Clock, RotateCcw, Shuffle, Lightbulb, User, ShoppingCart, Trophy, Spark
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
-const ROUND_TIME = 275
+const ROUND_TIME = 60
 const TRAY_SIZE = 6
 const MATCH_POINTS = 150
 const COMBO_POINTS = 300
@@ -184,7 +184,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
   )
 }
 
-function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, onSelect, onRestart }) {
+function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, finalCountdown, onSelect, onRestart, onClearTray }) {
   const [dragging, setDragging] = useState(null)
   const shelves = [board.slice(0, 6), board.slice(6, 12), board.slice(12, 18)]
 
@@ -203,6 +203,19 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
   return (
     <main className="game-screen">
       <div className="blurred-market-bg" />
+      <AnimatePresence>
+        {finalCountdown && (
+          <motion.div
+            className="countdown-alert"
+            initial={{ opacity: 0, scale: 0.65 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.15 }}
+          >
+            <strong>{time}</strong>
+            <span>Tempo acabando!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <TutorialPanel />
 
       <section className="play-area">
@@ -284,9 +297,11 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
         <button className="touch-drop" onClick={touchDrop}>Soltar produto selecionado</button>
 
-        <section className="powerups">
-          <button><Lightbulb /><em>3</em></button>
-          <button><Shuffle /><em>2</em></button>
+        <section className="powerups cleaner-area">
+          <button className="cleaner-button" onClick={onClearTray}>
+            <Eraser />
+            <em>Limpar</em>
+          </button>
         </section>
 
         <footer className="slogan">
@@ -386,7 +401,7 @@ function App() {
       return
     }
 
-    const nextItem = { ...item, id: `${item.id}-tray` }
+    const nextItem = { ...item, id: `${item.id}-tray`, originSlotId: slotId }
     const nextTray = [...tray, nextItem]
     const same = nextTray.filter((product) => product.type === item.type)
 
@@ -417,6 +432,40 @@ function App() {
       setMessage(`${item.name} adicionado ao organizador. Junte 3 iguais para pontuar.`)
       playSound('click')
     }
+  }
+
+
+  function clearTray() {
+    if (tray.length === 0) {
+      playSound('error')
+      setMessage('O organizador já está vazio.')
+      return
+    }
+
+    setBoard((current) => {
+      const restored = current.map((slot) => ({ ...slot, layers: [...slot.layers] }))
+
+      tray.forEach((item) => {
+        const targetIndex = restored.findIndex((slot) => slot.slotId === item.originSlotId)
+        const cleanItem = {
+          type: item.type,
+          name: item.name,
+          image: item.image,
+          id: `${item.originSlotId}-${item.type}-restored-${Math.random().toString(36).slice(2)}`
+        }
+
+        if (targetIndex >= 0) {
+          restored[targetIndex].layers.push(cleanItem)
+        }
+      })
+
+      return restored
+    })
+
+    setTray([])
+    setMatchingIds([])
+    setMessage('Organizador limpo. Os produtos voltaram para as prateleiras.')
+    playSound('combo')
   }
 
   useEffect(() => {
@@ -457,8 +506,10 @@ function App() {
       matchingIds={matchingIds}
       message={message}
       comboVisible={comboVisible}
+      finalCountdown={time <= 10 && time > 0}
       onSelect={selectSlot}
       onRestart={start}
+      onClearTray={clearTray}
     />
   )
 }
