@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart, Trophy } from 'lucide-react'
+import { Clock, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart, Trophy, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
 const ROUND_TIME = 275
 const TRAY_SIZE = 7
+const MATCH_POINTS = 150
+const COMBO_POINTS = 300
+const COMBO_WINDOW_MS = 5000
 
 const PRODUCTS = [
   { type: 'amaciante', name: 'Amaciante', image: '/assets/products/amaciante.png' },
@@ -64,8 +67,10 @@ function playSound(kind) {
     const AudioContext = window.AudioContext || window.webkitAudioContext
     const ctx = new AudioContext()
 
-    if (kind === 'champion') {
-      const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5]
+    if (kind === 'champion' || kind === 'combo') {
+      const notes = kind === 'combo'
+        ? [659.25, 783.99, 1046.5]
+        : [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5]
       notes.forEach((freq, index) => {
         const osc = ctx.createOscillator()
         const gain = ctx.createGain()
@@ -73,7 +78,7 @@ function playSound(kind) {
         gain.connect(ctx.destination)
         osc.type = 'triangle'
         osc.frequency.value = freq
-        const start = ctx.currentTime + index * 0.16
+        const start = ctx.currentTime + index * 0.13
         gain.gain.setValueAtTime(0.001, start)
         gain.gain.exponentialRampToValueAtTime(0.12, start + 0.03)
         gain.gain.exponentialRampToValueAtTime(0.001, start + 0.22)
@@ -125,8 +130,8 @@ function TutorialPanel() {
       <img src="/assets/logo-uau.png" className="side-logo" />
       <div className="side-title">GOODS<br/>SORT</div>
       <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens idênticos para o organizador.</p></div>
-      <div className="tip"><b>2</b><h3>Camadas ocultas</h3><p>Os produtos de trás ficam visíveis, porém mais escuros.</p></div>
-      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Todos os produtos têm pares de 3 para finalizar o jogo.</p></div>
+      <div className="tip"><b>2</b><h3>Combo +300</h3><p>Faça 3 matchs consecutivos em até 5 segundos.</p></div>
+      <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Todos os produtos têm pares de 3 para finalizar.</p></div>
     </aside>
   )
 }
@@ -149,7 +154,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
     <div className="shelf-cell">
       <div className="hidden-products">
         {hidden.map((item, index) => (
-          <div className="hidden-product" key={item.id} style={{ right: `${index * 12 + 8}px`, transform: `scale(${0.78 - index * 0.08})` }}>
+          <div className="hidden-product" key={item.id} style={{ right: `${index * 10 + 7}px`, transform: `scale(${0.78 - index * 0.08})` }}>
             <ProductImage item={item} dark />
           </div>
         ))}
@@ -172,7 +177,7 @@ function ShelfCell({ slot, onSelect, onDragStart }) {
   )
 }
 
-function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, onRestart }) {
+function GameScreen({ board, tray, time, score, matchingIds, message, comboVisible, onSelect, onRestart }) {
   const [dragging, setDragging] = useState(null)
   const shelves = [board.slice(0, 8), board.slice(8, 16), board.slice(16, 24)]
 
@@ -198,7 +203,22 @@ function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, 
           <div className="small-card"><span>Nível</span><strong>12</strong></div>
           <div className="small-card"><span>Estrelas</span><strong><Star fill="#ffd86b" /> 2</strong></div>
           <div className="time-card"><Clock /><strong>{formatTime(time)}</strong></div>
-          <div className="points-card"><Trophy /><span>Pontos</span><strong>{score}</strong></div>
+          <div className="points-card">
+            <AnimatePresence>
+              {comboVisible && (
+                <motion.div
+                  className="combo-badge"
+                  initial={{ opacity: 0, scale: 0.55, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: -8 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -28 }}
+                >
+                  <Sparkles />
+                  Combo +300
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Trophy /><span>Pontos</span><strong>{score}</strong>
+          </div>
         </header>
 
         <section className="cabinet">
@@ -236,7 +256,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, onSelect, 
                       <motion.div
                         className="tray-product"
                         key={item.id}
-                        initial={{ opacity: 0, y: -30, scale: 0.4 }}
+                        initial={{ opacity: 0, y: -22, scale: 0.4 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0 }}
                       >
@@ -296,16 +316,22 @@ function App() {
   const [matchingIds, setMatchingIds] = useState([])
   const [message, setMessage] = useState('Arraste ou clique em um produto para levar ao organizador.')
   const [result, setResult] = useState('lose')
+  const [comboVisible, setComboVisible] = useState(false)
   const timerRef = useRef(null)
+  const matchTimesRef = useRef([])
+  const comboTimeoutRef = useRef(null)
 
   function start() {
     if (!name.trim()) return
     clearInterval(timerRef.current)
+    clearTimeout(comboTimeoutRef.current)
+    matchTimesRef.current = []
     setBoard(createBoard())
     setTray([])
     setTime(ROUND_TIME)
     setScore(0)
     setMatchingIds([])
+    setComboVisible(false)
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
     setScreen('game')
@@ -321,6 +347,21 @@ function App() {
         return current - 1
       })
     }, 1000)
+  }
+
+  function registerMatch() {
+    const now = Date.now()
+    matchTimesRef.current = [...matchTimesRef.current, now].filter((timeStamp) => now - timeStamp <= COMBO_WINDOW_MS)
+
+    if (matchTimesRef.current.length >= 3) {
+      matchTimesRef.current = []
+      setScore((current) => current + COMBO_POINTS)
+      setComboVisible(true)
+      playSound('combo')
+      clearTimeout(comboTimeoutRef.current)
+      comboTimeoutRef.current = setTimeout(() => setComboVisible(false), 1400)
+      setMessage(`Combo ativado! +${COMBO_POINTS} pontos extras`)
+    }
   }
 
   function selectSlot(slotId) {
@@ -351,14 +392,15 @@ function App() {
       const ids = matched.map((product) => product.id)
       setTray(nextTray)
       setMatchingIds(ids)
-      setMessage(`Match 3: ${item.name}! +150 pontos`)
-      setScore((current) => current + 150)
+      setMessage(`Match 3: ${item.name}! +${MATCH_POINTS} pontos`)
+      setScore((current) => current + MATCH_POINTS)
+      registerMatch()
       playSound('match')
 
       setTimeout(() => {
         setTray((current) => current.filter((product) => !ids.includes(product.id)))
         setMatchingIds([])
-      }, 820)
+      }, 740)
     } else {
       setTray(nextTray)
       setMessage(`${item.name} adicionado ao organizador. Junte 3 iguais para pontuar.`)
@@ -387,7 +429,10 @@ function App() {
     }
   }, [board, tray, screen, time])
 
-  useEffect(() => () => clearInterval(timerRef.current), [])
+  useEffect(() => () => {
+    clearInterval(timerRef.current)
+    clearTimeout(comboTimeoutRef.current)
+  }, [])
 
   if (screen === 'start') return <StartScreen name={name} setName={setName} onStart={start} />
   if (screen === 'end') return <EndScreen name={name} score={score} result={result} restart={start} />
@@ -400,6 +445,7 @@ function App() {
       score={score}
       matchingIds={matchingIds}
       message={message}
+      comboVisible={comboVisible}
       onSelect={selectSlot}
       onRestart={start}
     />

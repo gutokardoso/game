@@ -1,7 +1,7 @@
 {
-  "name": "uau-goods-sort-layout-final-campeao",
+  "name": "uau-goods-sort-sem-scroll-combo",
   "private": true,
-  "version": "5.3.0",
+  "version": "5.4.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
