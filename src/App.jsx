@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Clock, RotateCcw, Shuffle, Lightbulb, User, Star, ShoppingCart, Trophy, Sparkles } from 'lucide-react'
+import { Clock, RotateCcw, Shuffle, Lightbulb, User, ShoppingCart, Trophy, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './styles.css'
 
@@ -207,8 +207,13 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
       <section className="play-area">
         <header className="top-hud">
-          <div className="small-card"><span>Nível</span><strong>12</strong></div>
-          <div className="small-card"><span>Estrelas</span><strong><Star fill="#ffd86b" /> 2</strong></div>
+          <div className="game-logo-card">
+            <img src="/assets/logo-uau.png" alt="UAU Goods Sort" />
+          </div>
+          <button className="restart-top" onClick={onRestart}>
+            <RotateCcw />
+            <span>Reiniciar</span>
+          </button>
           <div className="time-card"><Clock /><strong>{formatTime(time)}</strong></div>
           <div className="points-card">
             <AnimatePresence>
@@ -281,7 +286,6 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
         <section className="powerups">
           <button><Lightbulb /><em>3</em></button>
-          <button onClick={onRestart}><RotateCcw /><em>2</em></button>
           <button><Shuffle /><em>2</em></button>
         </section>
 
