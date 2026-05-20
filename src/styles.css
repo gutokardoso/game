@@ -658,3 +658,172 @@
     padding:10px 14px!important;
   }
 }
+
+
+/* v8 requested layout */
+.top-hud{
+  order:0!important;
+  margin-top:0!important;
+  margin-bottom:6px!important;
+}
+
+.cabinet{
+  order:1!important;
+}
+
+.stock-row{
+  order:2!important;
+  margin-top:6px!important;
+  margin-bottom:0!important;
+}
+
+.slogan,
+.top-slogan{
+  display:none!important;
+}
+
+/* remove top text content */
+.tutorial:after{
+  display:none!important;
+}
+
+.tip{
+  display:none!important;
+}
+
+/* side box without big golden inner line */
+.tutorial{
+  border-color:rgba(214,169,53,.22)!important;
+  box-shadow:0 0 22px rgba(214,169,53,.08), inset 0 0 18px rgba(255,255,255,.03)!important;
+}
+
+.side-title{
+  color:#ffd86b!important;
+}
+
+/* bottom stock row */
+.stock-row{
+  width:min(760px,78%)!important;
+  justify-content:flex-start!important;
+}
+
+.stock-row .tray-wrapper{
+  width:min(650px,calc(100% - 112px))!important;
+}
+
+.stock-row .stock-clean-button{
+  width:104px!important;
+  min-width:104px!important;
+}
+
+/* keep top hud as restart, time, points */
+.top-hud{
+  grid-template-columns:145px minmax(200px,1fr) 145px!important;
+}
+
+/* remove the first empty column if cleaner-top removed */
+.top-hud .small-card,
+.top-hud .game-logo-card{
+  display:none!important;
+}
+
+/* pack name visual */
+.goods-badge span{
+  font-size:54px!important;
+}
+
+.goods-badge strong{
+  font-size:44px!important;
+  line-height:1!important;
+}
+
+@media(max-width:900px){
+  .game-screen{
+    display:grid!important;
+    grid-template-columns:92px 1fr!important;
+    height:100dvh!important;
+    padding:7px!important;
+    gap:6px!important;
+  }
+
+  .tutorial{
+    display:block!important;
+    order:initial!important;
+    width:auto!important;
+    height:calc(100dvh - 14px)!important;
+    min-height:0!important;
+    padding:6px!important;
+    margin:0!important;
+  }
+
+  .side-logo{
+    width:64px!important;
+    margin:0 auto 6px!important;
+  }
+
+  .side-title{
+    display:block!important;
+    font-size:16px!important;
+    line-height:.95!important;
+    margin-bottom:0!important;
+  }
+
+  .play-area{
+    height:calc(100dvh - 14px)!important;
+    width:100%!important;
+  }
+
+  .top-hud{
+    order:0!important;
+    height:42px!important;
+    grid-template-columns:.9fr 1.25fr 1fr!important;
+    margin-bottom:5px!important;
+  }
+
+  .cabinet{
+    order:1!important;
+    max-height:calc(100dvh - 185px)!important;
+  }
+
+  .stock-row{
+    order:2!important;
+    width:100%!important;
+    margin-top:5px!important;
+  }
+
+  .stock-row .tray-wrapper{
+    width:calc(100% - 62px)!important;
+  }
+
+  .stock-row .stock-clean-button{
+    width:56px!important;
+    min-width:56px!important;
+  }
+
+  .top-hud .restart-top{
+    display:flex!important;
+  }
+
+  .top-hud .time-card,
+  .top-hud .points-card{
+    display:flex!important;
+  }
+}
+
+@media(max-width:430px){
+  .game-screen{
+    grid-template-columns:82px 1fr!important;
+  }
+
+  .side-logo{
+    width:56px!important;
+  }
+
+  .side-title{
+    font-size:14px!important;
+  }
+
+  .cabinet{
+    max-height:calc(100dvh - 178px)!important;
+  }
+}

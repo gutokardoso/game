@@ -116,8 +116,8 @@ function StartScreen({ name, setName, onStart }) {
       <section className="start-panel">
         <img src="/assets/logo-uau.png" className="start-logo" />
         <div className="goods-badge">
-          <span>GOODS</span>
-          <strong>SORT</strong>
+          <span>PACK</span>
+          <strong>CHÁ BRANCO</strong>
           <ShoppingCart />
         </div>
         <p>Organize, combine e vença!</p>
@@ -135,7 +135,7 @@ function TutorialPanel() {
   return (
     <aside className="tutorial">
       <img src="/assets/logo-uau.png" className="side-logo" />
-      <div className="side-title">GOODS<br/>SORT</div>
+      <div className="side-title">PACK<br/>CHÁ BRANCO</div>
       <div className="tip"><b>1</b><h3>Combine 3 iguais</h3><p>Arraste 3 itens para o organizador.</p></div>
       <div className="tip"><b>2</b><h3>Combo +300</h3><p>Faça 3 matchs em até 5 segundos.</p></div>
       <div className="tip"><b>3</b><h3>Limpe tudo</h3><p>Prateleiras com 6 produtos cada.</p></div>
@@ -256,11 +256,6 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
             <Trophy /><strong>{score}</strong>
           </div>
         </header>
-
-        <footer className="slogan top-slogan">
-          <strong>ORGANIZE, <span>COMBINE E VENÇA!</span></strong>
-          <p>{message}</p>
-        </footer>
 
         <section className="stock-row">
           <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
