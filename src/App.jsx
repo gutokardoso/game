@@ -220,9 +220,10 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
 
       <section className="play-area">
         <header className="top-hud">
-          <div className="game-logo-card">
-            <img src="/assets/logo-uau.png" alt="UAU Goods Sort" />
-          </div>
+          <button className="cleaner-top" onClick={onClearTray}>
+            <Eraser />
+            <span>Limpar estoque</span>
+          </button>
           <button className="restart-top" onClick={onRestart}>
             <RotateCcw />
             <span>Reiniciar</span>
@@ -246,27 +247,8 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           </div>
         </header>
 
-        <section className="cabinet">
-          {shelves.map((shelf, index) => (
-            <div className="shelf-row" key={index}>
-              <div className="cell-grid">
-                {shelf.map(slot => (
-                  <ShelfCell
-                    key={slot.slotId}
-                    slot={slot}
-                    onSelect={onSelect}
-                    onDragStart={setDragging}
-                  />
-                ))}
-              </div>
-              <div className="shelf-board" />
-            </div>
-          ))}
-        </section>
-
         <section className="organizer-label">
           <strong>Estoque</strong>
-          <span>6 espaços • pontos só no match 3</span>
         </section>
 
         <section className="tray-wrapper" onDrop={drop} onDragOver={(event) => event.preventDefault()}>
@@ -295,13 +277,22 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
           </div>
         </section>
 
-        <button className="touch-drop" onClick={touchDrop}>Soltar produto selecionado</button>
-
-        <section className="powerups cleaner-area">
-          <button className="cleaner-button" onClick={onClearTray}>
-            <Eraser />
-            <em>Limpar</em>
-          </button>
+        <section className="cabinet">
+          {shelves.map((shelf, index) => (
+            <div className="shelf-row" key={index}>
+              <div className="cell-grid">
+                {shelf.map(slot => (
+                  <ShelfCell
+                    key={slot.slotId}
+                    slot={slot}
+                    onSelect={onSelect}
+                    onDragStart={setDragging}
+                  />
+                ))}
+              </div>
+              <div className="shelf-board" />
+            </div>
+          ))}
         </section>
 
         <footer className="slogan">
