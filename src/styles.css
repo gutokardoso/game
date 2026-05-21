@@ -3915,3 +3915,19 @@ input[type="text"]:focus{
     width:92vw!important;
   }
 }
+
+
+/* v18 - centralização visual definitiva do GAME OVER */
+.result-panel{
+  align-items:center !important;
+}
+
+.result-game-over-img{
+  position:relative !important;
+  left:-42px !important;
+  right:auto !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  transform:none !important;
+  align-self:center !important;
+}
