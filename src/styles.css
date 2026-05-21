@@ -4167,3 +4167,84 @@ input[type="text"]:focus{
     max-width:calc(100vw - 36px)!important;
   }
 }
+
+
+/* v28 - centralização real e responsividade da tela inicial */
+.start-screen,
+.exact-image-start-screen,
+.code-start-screen{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+}
+
+.start-screen form,
+.start-screen .form-area,
+.exact-image-start-screen form,
+.code-start-screen form{
+  width:100%!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+}
+
+.start-screen label,
+.start-screen input,
+.start-screen button,
+.exact-image-start-screen label,
+.exact-image-start-screen input,
+.exact-image-start-screen button,
+.code-start-screen label,
+.code-start-screen input,
+.code-start-screen button{
+  width:clamp(260px, 78vw, 520px)!important;
+  max-width:78vw!important;
+  min-width:0!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+
+.start-screen input,
+.exact-image-start-screen input,
+.code-start-screen input{
+  display:block!important;
+}
+
+.start-screen button,
+.exact-image-start-screen button,
+.code-start-screen button{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+@media(max-width:768px){
+  .start-screen label,
+  .start-screen input,
+  .start-screen button,
+  .exact-image-start-screen label,
+  .exact-image-start-screen input,
+  .exact-image-start-screen button,
+  .code-start-screen label,
+  .code-start-screen input,
+  .code-start-screen button{
+    width:calc(100vw - 48px)!important;
+    max-width:calc(100vw - 48px)!important;
+  }
+}
+
+@media(max-width:430px){
+  .start-screen label,
+  .start-screen input,
+  .start-screen button,
+  .exact-image-start-screen label,
+  .exact-image-start-screen input,
+  .exact-image-start-screen button,
+  .code-start-screen label,
+  .code-start-screen input,
+  .code-start-screen button{
+    width:calc(100vw - 32px)!important;
+    max-width:calc(100vw - 32px)!important;
+  }
+}
