@@ -151,7 +151,7 @@ function StartScreen({ name, setName, onStart }) {
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Seu nome"
+            placeholder="Digite seu nome para começar"
             maxLength={22}
             autoFocus
           />

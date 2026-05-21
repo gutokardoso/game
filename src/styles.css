@@ -3122,3 +3122,12 @@ input[type="text"]{
   border:2px solid #6fba39 !important;
   box-shadow:0 0 12px rgba(111,186,57,.25)!important;
 }
+
+
+/* Prezunic green numbers */
+.tip-number,
+.tip .number,
+.tip-index,
+.tip span:first-child{
+  color:#6fba39 !important;
+}
