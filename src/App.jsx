@@ -386,10 +386,10 @@ function EndScreen({ name, score, result, restart, ranking, backToStart }) {
         </section>
 
         <section className="final-actions">
-          <button className="final-action-button" type="button" onClick={restart}>
+          <button className="ranking-green-button final-action-button" type="button" onClick={restart}>
             Jogar novamente
           </button>
-          <button className="final-action-button" type="button" onClick={backToStart}>
+          <button className="ranking-green-button final-action-button" type="button" onClick={backToStart}>
             Voltar ao início
           </button>
         </section>
