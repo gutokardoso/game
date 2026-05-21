@@ -4026,3 +4026,19 @@ input[type="text"]:focus{
     left:0!important;
   }
 }
+
+
+/* v22 - fundo da última tela atualizado */
+.result-neon-screen,
+.end-screen{
+  background:#000 url('/assets/result-bg.png') center center / cover no-repeat !important;
+}
+
+.result-neon-screen::before{
+  display:none!important;
+}
+
+.result-side,
+.result-confetti{
+  display:none!important;
+}
