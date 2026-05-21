@@ -367,15 +367,14 @@ function EndScreen({ name, score, result, restart, ranking, backToStart }) {
       <section className="result-panel">
         <img src="/assets/logo-uau.png" className="result-logo" alt="Prezunic" />
 
-        <div className="result-brand-pill">
-          <span>PREZUNIC</span>
-          <strong>CHALLENGE</strong>
-        </div>
-
-        <div className="result-title-card">
-          <strong>{titleTop}</strong>
-          <span>{titleBottom}</span>
-        </div>
+        {result === 'win' ? (
+          <div className="result-title-card">
+            <strong>{titleTop}</strong>
+            <span>{titleBottom}</span>
+          </div>
+        ) : (
+          <img src="/assets/game-over.png" className="result-game-over-img" alt="Game Over" />
+        )}
 
         <div className="result-score-title">Sua pontuação</div>
 

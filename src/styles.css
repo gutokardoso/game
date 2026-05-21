@@ -3730,3 +3730,34 @@ input[type="text"]:focus{
   .result-title-card{width:92vw}
   .result-ranking-box,.result-actions{width:88vw}
 }
+
+
+/* v13 - game over image on final screen */
+.result-brand-pill{
+  display:none!important;
+}
+
+.result-game-over-img{
+  width:min(560px,90vw)!important;
+  max-height:34dvh!important;
+  object-fit:contain!important;
+  display:block!important;
+  margin:clamp(8px,1.5dvh,18px) auto clamp(10px,1.8dvh,20px)!important;
+  filter:drop-shadow(0 0 24px rgba(0,159,255,.75)) drop-shadow(0 0 18px rgba(111,186,57,.65))!important;
+  flex:none!important;
+}
+
+@media(max-height:760px){
+  .result-game-over-img{
+    width:min(480px,86vw)!important;
+    max-height:28dvh!important;
+    margin:6px auto 8px!important;
+  }
+}
+
+@media(max-width:430px){
+  .result-game-over-img{
+    width:94vw!important;
+    max-height:27dvh!important;
+  }
+}
