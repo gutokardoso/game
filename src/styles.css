@@ -2918,3 +2918,53 @@
   visibility:visible!important;
   opacity:1!important;
 }
+
+
+/* v33 definitive final action buttons below ranking */
+.end-panel .final-actions{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  width:100%!important;
+  margin-top:12px!important;
+  position:relative!important;
+  z-index:1000!important;
+  visibility:visible!important;
+  opacity:1!important;
+  flex:0 0 auto!important;
+}
+
+.end-panel .final-action-button{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:46px!important;
+  min-height:46px!important;
+  border:2px solid #f4c64b!important;
+  border-radius:10px!important;
+  background:linear-gradient(180deg,#f6bc1d 0%,#df9500 55%,#c77b00 100%)!important;
+  color:#050505!important;
+  font-size:13px!important;
+  font-weight:950!important;
+  text-transform:uppercase!important;
+  line-height:1!important;
+  padding:0 8px!important;
+  margin:0!important;
+  cursor:pointer!important;
+  box-shadow:0 0 22px rgba(255,191,47,.24), inset 0 2px 0 rgba(255,255,255,.32)!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+@media(max-height:700px){
+  .end-panel .final-actions{
+    margin-top:8px!important;
+  }
+
+  .end-panel .final-action-button{
+    height:38px!important;
+    min-height:38px!important;
+    font-size:11px!important;
+  }
+}
