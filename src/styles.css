@@ -3034,3 +3034,35 @@
   line-height:.7!important;
   gap:2px!important;
 }
+
+
+/* v37 justified ranking layout */
+.ranking-row{
+  display:grid!important;
+  grid-template-columns:26px 1fr auto!important;
+  align-items:center!important;
+
+  min-height:6px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+
+  line-height:.7!important;
+  gap:2px!important;
+
+  border-bottom:.5px solid #d6a935!important;
+}
+
+.ranking-position{
+  text-align:left!important;
+  justify-self:start!important;
+}
+
+.ranking-name{
+  text-align:left!important;
+  justify-self:start!important;
+}
+
+.ranking-score{
+  text-align:right!important;
+  justify-self:end!important;
+}
