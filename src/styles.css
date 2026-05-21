@@ -3161,3 +3161,53 @@ input[type="text"]:focus{
   outline:none !important;
   box-shadow:none !important;
 }
+
+
+/* v7 - correção definitiva do campo nome da tela inicial */
+/* caixa externa do campo nome */
+.exact-layout-input,
+.premium-input,
+.exact-name-field,
+.name-field{
+  border:2px solid #6fba39 !important;
+  border-radius:18px !important;
+  box-shadow:none !important;
+  outline:none !important;
+}
+
+/* input interno sem borda para não aparecer segunda linha */
+.exact-layout-input input,
+.premium-input input,
+.exact-name-field input,
+.name-field input,
+.start-screen input,
+.exact-image-start-screen input,
+.code-start-screen input{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+
+/* remove qualquer contorno no foco */
+.exact-layout-input input:focus,
+.premium-input input:focus,
+.exact-name-field input:focus,
+.name-field input:focus,
+.start-screen input:focus,
+.exact-image-start-screen input:focus,
+.code-start-screen input:focus{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+/* garante que pseudo-elementos/overlays não criem borda interna */
+.exact-layout-input::after,
+.premium-input::after,
+.exact-name-field::after,
+.name-field::after{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
