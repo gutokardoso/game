@@ -4107,3 +4107,63 @@ input[type="text"]:focus{
     max-width:92vw!important;
   }
 }
+
+
+/* v27 - campo nome e botão Começar 100% responsivos */
+.exact-layout-start-button,
+.start-button,
+.start-screen .primary-button,
+.start-screen button,
+.exact-image-start-screen button,
+.code-start-screen button{
+  width:min(520px, calc(100vw - 48px))!important;
+  max-width:calc(100vw - 48px)!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+.exact-layout-input,
+.name-input,
+.start-input,
+.start-screen label,
+.exact-image-start-screen label,
+.code-start-screen label{
+  width:min(520px, calc(100vw - 48px))!important;
+  max-width:calc(100vw - 48px)!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+.exact-layout-input input,
+.name-input input,
+.start-input input,
+.start-screen input,
+.exact-image-start-screen input,
+.code-start-screen input{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+
+@media(max-width:430px){
+  .exact-layout-start-button,
+  .start-button,
+  .start-screen .primary-button,
+  .start-screen button,
+  .exact-image-start-screen button,
+  .code-start-screen button,
+  .exact-layout-input,
+  .name-input,
+  .start-input,
+  .start-screen label,
+  .exact-image-start-screen label,
+  .code-start-screen label{
+    width:calc(100vw - 36px)!important;
+    max-width:calc(100vw - 36px)!important;
+  }
+}
