@@ -4433,3 +4433,23 @@ input[type="text"]:focus{
     top:62.5%!important;
   }
 }
+
+
+/* v32 - textos e ícones verdes */
+.tip h3{
+  color:#6fba39 !important;
+}
+
+/* ícones refresh, troféu e limpar */
+.refresh-icon,
+.trophy-icon,
+.clear-icon,
+.icon-refresh,
+.icon-trophy,
+.icon-clear,
+button svg,
+.controls svg{
+  color:#6fba39 !important;
+  fill:#6fba39 !important;
+  stroke:#6fba39 !important;
+}
