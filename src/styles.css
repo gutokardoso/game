@@ -3211,3 +3211,55 @@ input[type="text"]:focus{
   outline:0 !important;
   box-shadow:none !important;
 }
+
+
+/* GREEN PREMIUM BUTTONS */
+.start-button,
+.play-again-button,
+.home-button,
+.restart-button,
+.back-button,
+.end-button{
+  background:linear-gradient(
+    180deg,
+    #a9f313 0%,
+    #79d117 42%,
+    #39a50d 72%,
+    #248807 100%
+  ) !important;
+
+  border:2px solid #b6ff2d !important;
+  border-radius:14px !important;
+
+  color:#04152b !important;
+  font-weight:950 !important;
+  text-transform:uppercase !important;
+
+  box-shadow:
+    0 0 22px rgba(111,186,57,.55),
+    0 0 40px rgba(111,186,57,.35),
+    inset 0 2px 0 rgba(255,255,255,.28),
+    inset 0 -4px 10px rgba(0,0,0,.18) !important;
+
+  transition:all .2s ease !important;
+}
+
+.start-button:hover,
+.play-again-button:hover,
+.home-button:hover,
+.restart-button:hover,
+.back-button:hover,
+.end-button:hover{
+  filter:brightness(1.08);
+  transform:translateY(-1px);
+}
+
+.start-button:active,
+.play-again-button:active,
+.home-button:active,
+.restart-button:active,
+.back-button:active,
+.end-button:active{
+  transform:translateY(1px);
+  filter:brightness(.96);
+}
