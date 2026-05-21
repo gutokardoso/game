@@ -143,24 +143,25 @@ function StartScreen({ name, setName, onStart }) {
       <img
         src="/assets/start-screen-layout.png"
         className="exact-layout-image"
-        alt="UAU Market Challenge"
+        alt="Prezunic Challenge"
       />
 
       <section className="exact-layout-actions">
         <div className="exact-layout-content">
-        <label className="exact-layout-input">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Digite seu nome para começar"
-            maxLength={22}
-            autoFocus
-          />
-        </label>
+          <label className="exact-layout-input">
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Digite seu nome para começar"
+              maxLength={22}
+              autoFocus
+            />
+          </label>
 
-        <button className="exact-layout-start-button" onClick={onStart}>
-          Começar
-        </button>
+          <button className="exact-layout-start-button" onClick={onStart}>
+            Começar
+          </button>
+        </div>
       </section>
     </main>
   )
