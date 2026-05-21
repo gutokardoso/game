@@ -4512,3 +4512,36 @@ input[type="text"]:focus{
 .restart-button svg{
   stroke:#6fba39 !important;
 }
+
+
+/* v39 - corrigir botão Reiniciar real: ícone e texto verdes */
+.green-restart-button,
+.restart-top,
+.restart-top span,
+.green-restart-button span{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
+
+.green-restart-button svg,
+.restart-top svg,
+.green-restart-button svg *,
+.restart-top svg *{
+  color:#6fba39 !important;
+  stroke:#6fba39 !important;
+  fill:none !important;
+}
+
+/* se o texto estiver em qualquer filho */
+.green-restart-button *,
+.restart-top *{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
+
+/* manter o svg apenas em contorno */
+.green-restart-button svg *,
+.restart-top svg *{
+  stroke:#6fba39 !important;
+  fill:none !important;
+}

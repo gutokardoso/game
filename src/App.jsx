@@ -286,7 +286,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
       <section className="play-area">
         <header className="top-hud">
           
-          <button className="restart-top" onClick={onRestart}>
+          <button className="restart-top green-restart-button" onClick={onRestart}>
             <RotateCcw />
             <span>Reiniciar</span>
           </button>
