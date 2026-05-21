@@ -4571,3 +4571,31 @@ input[type="text"]:focus{
   color:#6fba39 !important;
   -webkit-text-fill-color:#6fba39 !important;
 }
+
+
+/* v41 - ícone limpar verde */
+.clear-button,
+.clear-action,
+.clear-control,
+.clear-icon,
+.clear-button svg,
+.clear-action svg,
+.clear-control svg,
+.clear-icon svg,
+.clear-button svg *,
+.clear-action svg *,
+.clear-control svg *,
+.clear-icon svg *{
+  color:#6fba39 !important;
+  stroke:#6fba39 !important;
+  fill:none !important;
+}
+
+/* caso o ícone use texto/font-icon */
+.clear-button *,
+.clear-action *,
+.clear-control *,
+.clear-icon *{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
