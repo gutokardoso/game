@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Clock, RotateCcw, Shuffle, Lightbulb, User, ShoppingCart, Trophy, Sparkles, Eraser, Star } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { createClient } from '@supabase/supabase-js'
 import './styles.css'
 
 const ROUND_TIME = 60
@@ -11,46 +10,31 @@ const MATCH_POINTS = 150
 const COMBO_POINTS = 300
 const COMBO_WINDOW_MS = 5000
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
-const supabase =
-  SUPABASE_URL && SUPABASE_ANON_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    : null
+const RANKING_KEY = 'uau-market-challenge-ranking-top5'
 
-async function getRanking() {
-  if (!supabase) return []
-
-  const { data, error } = await supabase
-    .from('ranking')
-    .select('id, name, score, created_at')
-    .order('score', { ascending: false })
-    .order('created_at', { ascending: true })
-    .limit(5)
-
-  if (error) {
-    console.error('Erro ao buscar ranking:', error)
+function getRanking() {
+  try {
+    return JSON.parse(localStorage.getItem(RANKING_KEY) || '[]')
+  } catch {
     return []
   }
-
-  return data || []
 }
 
-async function saveRankingEntry(name, score) {
-  if (!supabase) return []
-
+function saveRankingEntry(name, score) {
   const safeName = (name || 'Jogador').trim() || 'Jogador'
+  const safeScore = Number.isFinite(Number(score)) ? Math.max(0, Math.round(Number(score))) : 0
 
-  const { error } = await supabase
-    .from('ranking')
-    .insert([{ name: safeName, score }])
+  const current = getRanking()
+  const updated = [...current, {
+    name: safeName.slice(0, 40),
+    score: safeScore,
+    date: new Date().toISOString()
+  }]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
 
-  if (error) {
-    console.error('Erro ao salvar ranking:', error)
-    return await getRanking()
-  }
-
-  return await getRanking()
+  localStorage.setItem(RANKING_KEY, JSON.stringify(updated))
+  return updated
 }
 
 
@@ -424,7 +408,7 @@ function App() {
   const [matchingIds, setMatchingIds] = useState([])
   const [message, setMessage] = useState('Arraste ou clique em um produto para levar ao organizador.')
   const [result, setResult] = useState('lose')
-  const [ranking, setRanking] = useState([])
+  const [ranking, setRanking] = useState(getRanking())
   const [comboVisible, setComboVisible] = useState(false)
   const [matchFeedback, setMatchFeedback] = useState(null)
   const timerRef = useRef(null)
@@ -432,23 +416,14 @@ function App() {
   const comboTimeoutRef = useRef(null)
   const matchFeedbackTimeoutRef = useRef(null)
 
-
-  async function loadRanking() {
-    const updatedRanking = await getRanking()
-    setRanking(updatedRanking)
-  }
-
   function finishGame(finalResult, bonus = 0) {
     clearInterval(timerRef.current)
     setResult(finalResult)
 
     setScore((current) => {
       const finalScore = current + bonus
-
-      saveRankingEntry(name, finalScore).then((updatedRanking) => {
-        setRanking(updatedRanking)
-      })
-
+      const updatedRanking = saveRankingEntry(name, finalScore)
+      setRanking(updatedRanking)
       return finalScore
     })
 
@@ -470,7 +445,7 @@ function App() {
     clearTimeout(matchFeedbackTimeoutRef.current)
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
-    loadRanking()
+    setRanking(getRanking())
     setScreen('game')
 
     timerRef.current = setInterval(() => {
@@ -634,14 +609,10 @@ function App() {
     setMatchFeedback(null)
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
-    loadRanking()
+    setRanking(getRanking())
     setName('')
     setScreen('start')
   }
-
-  useEffect(() => {
-    loadRanking()
-  }, [])
 
   useEffect(() => () => {
     clearInterval(timerRef.current)
