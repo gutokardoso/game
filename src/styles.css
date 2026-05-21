@@ -4506,3 +4506,9 @@ input[type="text"]:focus{
   stroke:#6fba39 !important;
   fill:none !important;
 }
+
+
+/* v38 - ícone reiniciar com contorno verde */
+.restart-button svg{
+  stroke:#6fba39 !important;
+}
