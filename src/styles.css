@@ -4449,3 +4449,30 @@ input[type="text"]:focus{
   -webkit-text-fill-color:#6fba39 !important;
   text-shadow:none !important;
 }
+
+
+/* v35 - correção definitiva dos números 1, 2 e 3 nas caixas laterais */
+.tip b,
+.tip > b,
+.tutorial .tip b,
+.tip .tip-number,
+.tip h3,
+.tip h3 *,
+.tip-number{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+  text-shadow:none !important;
+}
+
+.tip b{
+  border-color:#6fba39 !important;
+  box-shadow:0 0 8px rgba(111,186,57,.45) !important;
+}
+
+/* caso algum SVG/ícone herde amarelo dentro das tips */
+.tip b *,
+.tip .tip-number *{
+  color:#6fba39 !important;
+  fill:#6fba39 !important;
+  stroke:#6fba39 !important;
+}
