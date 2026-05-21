@@ -2895,3 +2895,26 @@
     height:36px!important;
   }
 }
+
+
+/* v32 fix final buttons visibility */
+.final-buttons-row{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  width:100%!important;
+  margin-top:12px!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  z-index:999!important;
+  flex-shrink:0!important;
+}
+
+.final-buttons-row .gold-button{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
