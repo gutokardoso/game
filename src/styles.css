@@ -3958,3 +3958,28 @@ input[type="text"]:focus{
     max-height:32dvh!important;
   }
 }
+
+
+/* v20 - correção da imagem VOCÊ GANHOU */
+.result-win-img{
+  width:min(700px,90vw)!important;
+  max-height:38dvh!important;
+  object-fit:contain!important;
+
+  position:relative!important;
+  left:-28px!important;
+
+  display:block!important;
+  margin:-6px auto -8px auto!important;
+
+  overflow:visible!important;
+  align-self:center!important;
+}
+
+@media(max-width:430px){
+  .result-win-img{
+    width:92vw!important;
+    max-height:30dvh!important;
+    left:-18px!important;
+  }
+}
