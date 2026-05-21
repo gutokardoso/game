@@ -603,6 +603,7 @@ function App() {
     setMessage('Arraste ou clique em um produto para levar ao organizador.')
     setResult('lose')
     setRanking(getRanking())
+    setName('')
     setScreen('start')
   }
 

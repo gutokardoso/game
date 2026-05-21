@@ -2968,3 +2968,47 @@
     font-size:11px!important;
   }
 }
+
+
+/* v34 ultra compact ranking */
+.ranking-box{
+  height:190px!important;
+  min-height:190px!important;
+  max-height:190px!important;
+}
+
+.ranking-list{
+  gap:0!important;
+}
+
+.ranking-row{
+  padding-top:0!important;
+  padding-bottom:0!important;
+  min-height:11px!important;
+  line-height:.82!important;
+  border-bottom:0.5px solid #d6a935!important;
+  gap:3px!important;
+}
+
+.ranking-position,
+.ranking-name,
+.ranking-score{
+  line-height:.82!important;
+  font-size:12px!important;
+}
+
+.ranking-box h2{
+  margin-bottom:2px!important;
+}
+
+@media(max-height:700px){
+  .ranking-box{
+    height:175px!important;
+    min-height:175px!important;
+    max-height:175px!important;
+  }
+
+  .ranking-row{
+    min-height:10px!important;
+  }
+}
