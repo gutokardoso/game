@@ -4476,3 +4476,47 @@ input[type="text"]:focus{
   fill:#6fba39 !important;
   stroke:#6fba39 !important;
 }
+
+
+/* v36 - ícones reiniciar, limpar e pontuação verdes */
+.restart-button,
+.clear-button,
+.score-box,
+.score-icon,
+.refresh-icon,
+.trophy-icon,
+.clear-icon,
+.tip svg,
+.header-icons svg,
+.game-header svg,
+.controls svg,
+.scoreboard svg,
+button svg{
+  color:#6fba39 !important;
+  fill:#6fba39 !important;
+  stroke:#6fba39 !important;
+  border-color:#6fba39 !important;
+}
+
+/* pseudo elementos */
+.restart-button::before,
+.clear-button::before,
+.score-box::before,
+.score-icon::before,
+.refresh-icon::before,
+.trophy-icon::before,
+.clear-icon::before{
+  color:#6fba39 !important;
+}
+
+/* remover qualquer glow amarelo */
+.restart-button,
+.clear-button,
+.score-box,
+.score-icon,
+.refresh-icon,
+.trophy-icon,
+.clear-icon{
+  text-shadow:none !important;
+  box-shadow:none !important;
+}
