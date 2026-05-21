@@ -4439,3 +4439,13 @@ input[type="text"]:focus{
 .tip h3{
   color:#6fba39 !important;
 }
+
+
+/* v34 - números das dicas verdes */
+.tip h3,
+.tip h3 *,
+.tip-number{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+  text-shadow:none !important;
+}
