@@ -4478,45 +4478,31 @@ input[type="text"]:focus{
 }
 
 
-/* v36 - ícones reiniciar, limpar e pontuação verdes */
-.restart-button,
-.clear-button,
-.score-box,
-.score-icon,
-.refresh-icon,
-.trophy-icon,
-.clear-icon,
-.tip svg,
-.header-icons svg,
+
+
+
+/* v37 - apenas contorno verde nos ícones */
+.restart-button svg,
+.clear-button svg,
+.score-icon svg,
+.refresh-icon svg,
+.trophy-icon svg,
+.clear-icon svg,
 .game-header svg,
 .controls svg,
-.scoreboard svg,
-button svg{
-  color:#6fba39 !important;
-  fill:#6fba39 !important;
+.scoreboard svg{
   stroke:#6fba39 !important;
-  border-color:#6fba39 !important;
-}
-
-/* pseudo elementos */
-.restart-button::before,
-.clear-button::before,
-.score-box::before,
-.score-icon::before,
-.refresh-icon::before,
-.trophy-icon::before,
-.clear-icon::before{
   color:#6fba39 !important;
+  fill:none !important;
 }
 
-/* remover qualquer glow amarelo */
-.restart-button,
-.clear-button,
-.score-box,
-.score-icon,
-.refresh-icon,
-.trophy-icon,
-.clear-icon{
-  text-shadow:none !important;
-  box-shadow:none !important;
+/* caso use lucide/react-icons */
+.restart-button svg *,
+.clear-button svg *,
+.score-icon svg *,
+.refresh-icon svg *,
+.trophy-icon svg *,
+.clear-icon svg *{
+  stroke:#6fba39 !important;
+  fill:none !important;
 }
