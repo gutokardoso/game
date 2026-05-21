@@ -4433,29 +4433,3 @@ input[type="text"]:focus{
     top:62.5%!important;
   }
 }
-
-
-/* v31 - largura fixa 300px para campo nome e botão começar */
-.exact-layout-actions{
-  width:300px !important;
-  max-width:300px !important;
-
-  position:absolute !important;
-  left:50% !important;
-  transform:translateX(-50%) !important;
-
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-}
-
-.exact-layout-input,
-.exact-layout-start-button{
-  width:300px !important;
-  max-width:300px !important;
-
-  margin-left:auto !important;
-  margin-right:auto !important;
-
-  box-sizing:border-box !important;
-}
