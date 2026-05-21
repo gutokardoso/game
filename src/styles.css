@@ -4433,3 +4433,9 @@ input[type="text"]:focus{
     top:62.5%!important;
   }
 }
+
+
+/* v33 - tip h3 verde */
+.tip h3{
+  color:#6fba39 !important;
+}
