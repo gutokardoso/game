@@ -3094,7 +3094,7 @@ button{
 .start-input,
 input[type="text"]{
   border:2px solid #6fba39 !important;
-  box-shadow:0 0 12px rgba(111,186,57,.25)!important;
+  box-shadow:none !important;
 }
 
 .tip h3{
@@ -3120,7 +3120,7 @@ button.begin{
 .start-screen input,
 input[type="text"]{
   border:2px solid #6fba39 !important;
-  box-shadow:0 0 12px rgba(111,186,57,.25)!important;
+  box-shadow:none !important;
 }
 
 
@@ -3140,4 +3140,24 @@ input[type="text"]{
 .rank-number{
   color:#6fba39 !important;
   -webkit-text-fill-color:#6fba39 !important;
+}
+
+
+/* FIX START INPUT BORDER */
+.name-input,
+.start-input,
+.start-screen input,
+input[type="text"]{
+  border:2px solid #6fba39 !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+.name-input:focus,
+.start-input:focus,
+.start-screen input:focus,
+input[type="text"]:focus{
+  border:2px solid #6fba39 !important;
+  outline:none !important;
+  box-shadow:none !important;
 }
