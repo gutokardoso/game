@@ -3326,3 +3326,47 @@ input[type="text"]:focus{
 .home-button:hover{
   filter:brightness(1.08) !important;
 }
+
+
+/* v10 - ranking screen buttons with premium green layout */
+.final-buttons-row button,
+.final-actions button,
+.play-again-button,
+.home-button,
+.replay-button,
+.back-home-button{
+  background:linear-gradient(
+    180deg,
+    #b7ff25 0%,
+    #8be01d 38%,
+    #6fba39 64%,
+    #259207 100%
+  ) !important;
+
+  border:2px solid #baff2d !important;
+  border-radius:14px !important;
+
+  color:#061733 !important;
+  -webkit-text-fill-color:#061733 !important;
+
+  font-weight:950 !important;
+  text-transform:uppercase !important;
+
+  box-shadow:
+    0 0 18px rgba(111,186,57,.75),
+    0 0 40px rgba(111,186,57,.42),
+    inset 0 2px 0 rgba(255,255,255,.38),
+    inset 0 -6px 12px rgba(0,80,0,.25) !important;
+
+  transition:all .2s ease !important;
+}
+
+.final-buttons-row button:hover,
+.final-actions button:hover,
+.play-again-button:hover,
+.home-button:hover,
+.replay-button:hover,
+.back-home-button:hover{
+  filter:brightness(1.08) !important;
+  transform:translateY(-1px) !important;
+}
