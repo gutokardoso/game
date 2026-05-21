@@ -2759,3 +2759,78 @@
   font-size:13px!important;
   font-weight:950!important;
 }
+
+
+/* v30 final page refinements */
+.ranking-row{
+  padding-top:1px!important;
+  padding-bottom:1px!important;
+  border-bottom:0.5px solid #d6a935!important;
+  display:grid!important;
+  grid-template-columns:26px 1fr auto!important;
+  gap:4px!important;
+  align-items:center!important;
+  line-height:1!important;
+}
+
+.ranking-position{
+  color:#ffbf20!important;
+  text-align:left!important;
+  justify-self:start!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
+
+.ranking-position::after{
+  content:none!important;
+}
+
+.ranking-name{
+  color:#fff!important;
+  text-align:left!important;
+  justify-self:start!important;
+  font-size:13px!important;
+  font-weight:300!important;
+}
+
+.ranking-score{
+  color:#fff!important;
+  text-align:right!important;
+  justify-self:end!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
+
+.end-panel .final-logo{
+  margin-bottom:18px!important;
+}
+
+.end-panel h1{
+  font-size:clamp(30px,7.5vw,48px)!important;
+  margin-bottom:18px!important;
+}
+
+.final-player-name{
+  margin-bottom:14px!important;
+}
+
+.final-score-card{
+  margin-top:8px!important;
+  margin-bottom:18px!important;
+}
+
+@media(max-height:700px){
+  .end-panel .final-logo{
+    margin-bottom:10px!important;
+  }
+
+  .end-panel h1{
+    font-size:34px!important;
+    margin-bottom:10px!important;
+  }
+
+  .final-score-card{
+    margin-top:4px!important;
+    margin-bottom:10px!important;
+  }
+}
