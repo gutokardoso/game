@@ -4625,3 +4625,31 @@ button.green-clear-button{
   color:#6fba39 !important;
   -webkit-text-fill-color:#6fba39 !important;
 }
+
+
+/* v43 - MATCH 3 totalmente amarelo */
+.match-feedback,
+.combo-popup,
+.match-popup,
+.match-feedback *,
+.combo-popup *,
+.match-popup *{
+  background:linear-gradient(
+    180deg,
+    #ffe27a 0%,
+    #f4c64b 45%,
+    #d89c00 100%
+  ) !important;
+
+  border-color:#ffe27a !important;
+
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+
+  text-shadow:
+    0 0 12px rgba(244,198,75,.95) !important;
+
+  box-shadow:
+    0 0 24px rgba(244,198,75,.55),
+    inset 0 0 12px rgba(255,255,255,.10) !important;
+}
