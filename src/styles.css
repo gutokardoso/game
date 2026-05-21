@@ -4248,3 +4248,88 @@ input[type="text"]:focus{
     max-width:calc(100vw - 32px)!important;
   }
 }
+
+
+/* v29 - correção definitiva: controles da tela inicial dentro da viewport */
+.exact-image-start-screen{
+  width:100vw!important;
+  height:100dvh!important;
+  max-width:100vw!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+
+.exact-layout-content,
+.exact-image-start-screen .exact-layout-content,
+.start-screen .exact-layout-content{
+  width:100%!important;
+  max-width:100vw!important;
+  box-sizing:border-box!important;
+  padding-left:clamp(16px,4vw,48px)!important;
+  padding-right:clamp(16px,4vw,48px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+}
+
+/* Campo nome: wrapper externo */
+.exact-layout-input{
+  width:min(520px,100%)!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+  align-self:center!important;
+}
+
+/* Campo nome: input interno não pode ter largura própria maior que o wrapper */
+.exact-layout-input input{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+
+/* Botão começar */
+.exact-layout-start-button{
+  width:min(520px,100%)!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+  align-self:center!important;
+}
+
+/* Remover larguras antigas que empurravam para fora */
+.exact-layout-input,
+.exact-layout-start-button{
+  transform:none!important;
+  left:auto!important;
+  right:auto!important;
+}
+
+@media(max-width:768px){
+  .exact-layout-content,
+  .exact-image-start-screen .exact-layout-content,
+  .start-screen .exact-layout-content{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+
+  .exact-layout-input,
+  .exact-layout-start-button{
+    width:100%!important;
+    max-width:100%!important;
+  }
+}
+
+@media(max-width:430px){
+  .exact-layout-content,
+  .exact-image-start-screen .exact-layout-content,
+  .start-screen .exact-layout-content{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+}

@@ -147,6 +147,7 @@ function StartScreen({ name, setName, onStart }) {
       />
 
       <section className="exact-layout-actions">
+        <div className="exact-layout-content">
         <label className="exact-layout-input">
           <input
             value={name}
