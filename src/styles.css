@@ -3263,3 +3263,66 @@ input[type="text"]:focus{
   transform:translateY(1px);
   filter:brightness(.96);
 }
+
+
+/* v9 - BOTÕES VERDES DEFINITIVO */
+/* botão começar da tela inicial */
+.exact-layout-start-button,
+.premium-start-btn,
+.gold-button,
+.start-screen button,
+.exact-image-start-screen button,
+.code-start-screen button{
+  background:linear-gradient(
+    180deg,
+    #b7ff25 0%,
+    #8be01d 38%,
+    #6fba39 64%,
+    #259207 100%
+  ) !important;
+  border:2px solid #baff2d !important;
+  border-radius:16px !important;
+  color:#061733 !important;
+  -webkit-text-fill-color:#061733 !important;
+  font-weight:950 !important;
+  text-transform:uppercase !important;
+  box-shadow:
+    0 0 18px rgba(111,186,57,.75),
+    0 0 40px rgba(111,186,57,.42),
+    inset 0 2px 0 rgba(255,255,255,.38),
+    inset 0 -6px 12px rgba(0,80,0,.25) !important;
+}
+
+/* botões da última tela */
+.final-action-button,
+.final-buttons-row .gold-button,
+.final-actions button,
+.replay-button,
+.home-button{
+  background:linear-gradient(
+    180deg,
+    #b7ff25 0%,
+    #8be01d 38%,
+    #6fba39 64%,
+    #259207 100%
+  ) !important;
+  border:2px solid #baff2d !important;
+  border-radius:12px !important;
+  color:#061733 !important;
+  -webkit-text-fill-color:#061733 !important;
+  font-weight:950 !important;
+  text-transform:uppercase !important;
+  box-shadow:
+    0 0 18px rgba(111,186,57,.75),
+    0 0 40px rgba(111,186,57,.42),
+    inset 0 2px 0 rgba(255,255,255,.38),
+    inset 0 -6px 12px rgba(0,80,0,.25) !important;
+}
+
+.exact-layout-start-button:hover,
+.final-action-button:hover,
+.final-buttons-row .gold-button:hover,
+.replay-button:hover,
+.home-button:hover{
+  filter:brightness(1.08) !important;
+}
