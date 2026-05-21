@@ -2721,3 +2721,41 @@
   text-align:right!important;
   justify-self:end!important;
 }
+
+
+/* v29 precise ranking spacing/alignment */
+.ranking-row{
+  padding-top:1px!important;
+  padding-bottom:1px!important;
+  border-bottom:0.5px solid #d6a935!important;
+  display:grid!important;
+  grid-template-columns:26px 1fr auto!important;
+  gap:4px!important;
+  align-items:center!important;
+}
+
+.ranking-position{
+  color:#ffbf20!important;
+  text-align:left!important;
+  justify-self:start!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
+
+.ranking-position::after{
+  content:none!important;
+}
+
+.ranking-name{
+  text-align:left!important;
+  justify-self:start!important;
+  font-size:13px!important;
+  font-weight:300!important;
+}
+
+.ranking-score{
+  text-align:right!important;
+  justify-self:end!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
