@@ -3738,6 +3738,9 @@ input[type="text"]:focus{
 }
 
 .result-game-over-img{
+  position:relative !important;
+  left:-18px !important;
+
   width:min(760px,96vw)!important;
   max-height:52dvh!important;
   object-fit:contain!important;
