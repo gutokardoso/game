@@ -4653,3 +4653,15 @@ button.green-clear-button{
     0 0 24px rgba(244,198,75,.55),
     inset 0 0 12px rgba(255,255,255,.10) !important;
 }
+
+
+/* v44 - texto MATCH 3 escuro */
+.match-feedback,
+.combo-popup,
+.match-popup,
+.match-feedback *,
+.combo-popup *,
+.match-popup *{
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+}
