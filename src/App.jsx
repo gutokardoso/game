@@ -355,45 +355,62 @@ function EndScreen({ name, score, result, restart, ranking, backToStart }) {
     playSound('champion')
   }, [])
 
+  const titleTop = result === 'win' ? 'VOCÊ' : 'GAME'
+  const titleBottom = result === 'win' ? 'GANHOU!' : 'OVER'
+
   return (
-    <main className="end-screen">
-      <div className="end-panel">
-        <img src="/assets/logo-uau.png" className="final-logo" />
+    <main className="end-screen result-neon-screen">
+      <div className="result-confetti" />
+      <div className="result-side result-side-left" />
+      <div className="result-side result-side-right" />
 
-        <h1>{result === 'win' ? 'Você venceu!' : 'Fim de jogo!'}</h1>
-        <p className="final-player-name">{name || 'Jogador'}</p>
+      <section className="result-panel">
+        <img src="/assets/logo-uau.png" className="result-logo" alt="Prezunic" />
 
-        <section className="final-score-card">
-          <span>Pontuação</span>
+        <div className="result-brand-pill">
+          <span>PREZUNIC</span>
+          <strong>CHALLENGE</strong>
+        </div>
+
+        <div className="result-title-card">
+          <strong>{titleTop}</strong>
+          <span>{titleBottom}</span>
+        </div>
+
+        <div className="result-score-title">Sua pontuação</div>
+
+        <section className="result-score-box">
           <strong>{score}</strong>
+          <span>Pontos</span>
         </section>
 
-        <section className="ranking-box">
-          <h2>Top 5 Ranking</h2>
-          <div className="ranking-list">
+        <div className="result-ranking-title">Ranking geral</div>
+
+        <section className="result-ranking-box">
+          <div className="result-ranking-list">
             {ranking.length === 0 ? (
               <p>Nenhum jogador ainda</p>
             ) : (
               ranking.map((player, index) => (
-                <div className="ranking-row" key={`${player.name}-${index}`}>
-                  <span className="ranking-position">{index + 1}.</span>
-                  <span className="ranking-name">{player.name}</span>
-                  <span className="ranking-score">{player.score}</span>
+                <div className="result-ranking-row" key={`${player.name}-${index}`}>
+                  <span className="result-ranking-position">{index + 1}</span>
+                  <span className="result-ranking-name">{player.name}</span>
+                  <span className="result-ranking-score">{player.score}</span>
                 </div>
               ))
             )}
           </div>
         </section>
 
-        <section className="final-actions">
-          <button className="ranking-green-button final-action-button" type="button" onClick={restart}>
+        <section className="result-actions">
+          <button className="result-green-button" type="button" onClick={restart}>
             Jogar novamente
           </button>
-          <button className="ranking-green-button final-action-button" type="button" onClick={backToStart}>
+          <button className="result-green-button" type="button" onClick={backToStart}>
             Voltar ao início
           </button>
         </section>
-      </div>
+      </section>
     </main>
   )
 }
