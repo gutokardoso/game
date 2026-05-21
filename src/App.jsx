@@ -322,7 +322,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
               })}
             </div>
           </section>
-          <button className="stock-clean-button" onClick={onClearTray}>
+          <button className="stock-clean-button green-clear-button" onClick={onClearTray}>
             <Eraser />
             Limpar
           </button>

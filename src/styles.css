@@ -4599,3 +4599,29 @@ input[type="text"]:focus{
   color:#6fba39 !important;
   -webkit-text-fill-color:#6fba39 !important;
 }
+
+
+/* v42 - botão/ícone LIMPAR real verde */
+.stock-clean-button,
+.green-clear-button,
+.stock-clean-button *,
+.green-clear-button *{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
+
+.stock-clean-button svg,
+.green-clear-button svg,
+.stock-clean-button svg *,
+.green-clear-button svg *{
+  color:#6fba39 !important;
+  stroke:#6fba39 !important;
+  fill:none !important;
+}
+
+/* caso o texto Limpar esteja em texto direto dentro do botão */
+button.stock-clean-button,
+button.green-clear-button{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
