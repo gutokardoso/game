@@ -3012,3 +3012,15 @@
     min-height:10px!important;
   }
 }
+
+
+/* v35 ranking size adjustments */
+.ranking-row{
+  min-height:8px!important;
+}
+
+.ranking-box{
+  height:350px!important;
+  min-height:350px!important;
+  max-height:350px!important;
+}
