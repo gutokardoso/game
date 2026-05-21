@@ -3100,3 +3100,25 @@ input[type="text"]{
 .tip h3{
   color:#6fba39 !important;
 }
+
+
+/* Start screen Prezunic green */
+.start-button,
+.start-screen button,
+button.start,
+button.play,
+button.begin{
+  background:#6fba39 !important;
+  border:2px solid #6fba39 !important;
+  box-shadow:0 0 18px rgba(111,186,57,.45)!important;
+  color:#000!important;
+}
+
+/* campo nome verde */
+.name-input,
+.start-input,
+.start-screen input,
+input[type="text"]{
+  border:2px solid #6fba39 !important;
+  box-shadow:0 0 12px rgba(111,186,57,.25)!important;
+}
