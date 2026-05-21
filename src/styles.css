@@ -4545,3 +4545,29 @@ input[type="text"]:focus{
   stroke:#6fba39 !important;
   fill:none !important;
 }
+
+
+/* v40 - ícone de pontuação verde */
+.points-card svg,
+.score-card svg,
+.score-box svg,
+.score-icon,
+.score-icon svg,
+.trophy-icon,
+.trophy-icon svg,
+.points-card svg *,
+.score-card svg *,
+.score-box svg *,
+.score-icon svg *,
+.trophy-icon svg *{
+  color:#6fba39 !important;
+  stroke:#6fba39 !important;
+  fill:none !important;
+}
+
+/* caso o ícone de pontuação use fill no próprio elemento */
+.points-card .score-icon,
+.points-card .trophy-icon{
+  color:#6fba39 !important;
+  -webkit-text-fill-color:#6fba39 !important;
+}
