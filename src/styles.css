@@ -4665,3 +4665,32 @@ button.green-clear-button{
   color:#000926 !important;
   -webkit-text-fill-color:#000926 !important;
 }
+
+
+/* v45 - COMBO +300 totalmente amarelo com texto escuro */
+.combo-visible,
+.combo-banner,
+.combo-feedback,
+.combo-popup,
+.combo-visible *,
+.combo-banner *,
+.combo-feedback *,
+.combo-popup *{
+  background:linear-gradient(
+    180deg,
+    #ffe27a 0%,
+    #f4c64b 45%,
+    #d89c00 100%
+  ) !important;
+
+  border-color:#ffe27a !important;
+
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+
+  text-shadow:none !important;
+
+  box-shadow:
+    0 0 24px rgba(244,198,75,.55),
+    inset 0 0 12px rgba(255,255,255,.10) !important;
+}
