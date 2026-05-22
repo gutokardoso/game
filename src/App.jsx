@@ -270,7 +270,7 @@ function GameScreen({ board, tray, time, score, matchingIds, message, comboVisib
         <AnimatePresence>
           {comboVisible && (
             <motion.div
-              className="combo-badge combo-center"
+              className="combo-badge combo-center combo-pure-yellow"
               initial={{ opacity: 0, scale: 0.55, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: -28 }}

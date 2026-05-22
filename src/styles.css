@@ -4746,3 +4746,64 @@ button.green-clear-button{
   box-shadow:none !important;
   filter:none !important;
 }
+
+
+/* v47 - correção definitiva do COMBO +300: classe real combo-badge/combo-center */
+.center-alerts .combo-badge,
+.center-alerts .combo-center,
+.center-alerts .combo-pure-yellow,
+.combo-badge,
+.combo-center,
+.combo-pure-yellow{
+  background:#f4c64b !important;
+  background-image:none !important;
+  background-color:#f4c64b !important;
+
+  border:2px solid #ffe27a !important;
+
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+
+  text-shadow:none !important;
+  filter:none !important;
+
+  box-shadow:
+    0 0 24px rgba(244,198,75,.65),
+    inset 0 0 12px rgba(255,255,255,.12) !important;
+}
+
+.center-alerts .combo-badge *,
+.center-alerts .combo-center *,
+.center-alerts .combo-pure-yellow *,
+.combo-badge *,
+.combo-center *,
+.combo-pure-yellow *{
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+  stroke:#000926 !important;
+  fill:none !important;
+
+  background:none !important;
+  background-image:none !important;
+  text-shadow:none !important;
+  filter:none !important;
+  box-shadow:none !important;
+}
+
+.center-alerts .combo-badge::before,
+.center-alerts .combo-badge::after,
+.center-alerts .combo-center::before,
+.center-alerts .combo-center::after,
+.combo-badge::before,
+.combo-badge::after,
+.combo-center::before,
+.combo-center::after,
+.combo-pure-yellow::before,
+.combo-pure-yellow::after{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
