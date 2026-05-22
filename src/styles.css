@@ -4694,3 +4694,55 @@ button.green-clear-button{
     0 0 24px rgba(244,198,75,.55),
     inset 0 0 12px rgba(255,255,255,.10) !important;
 }
+
+
+/* v46 - COMBO +300 totalmente amarelo sem verde */
+.combo-visible,
+.combo-banner,
+.combo-feedback,
+.combo-popup{
+  background:#f4c64b !important;
+  background-image:none !important;
+
+  border:2px solid #ffe27a !important;
+
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+
+  text-shadow:none !important;
+
+  box-shadow:
+    0 0 24px rgba(244,198,75,.55),
+    inset 0 0 12px rgba(255,255,255,.10) !important;
+
+  filter:none !important;
+}
+
+/* remover qualquer verde herdado */
+.combo-visible *,
+.combo-banner *,
+.combo-feedback *,
+.combo-popup *{
+  color:#000926 !important;
+  -webkit-text-fill-color:#000926 !important;
+
+  text-shadow:none !important;
+  filter:none !important;
+
+  background-image:none !important;
+}
+
+/* remover glow verde de pseudo elementos */
+.combo-visible::before,
+.combo-banner::before,
+.combo-feedback::before,
+.combo-popup::before,
+.combo-visible::after,
+.combo-banner::after,
+.combo-feedback::after,
+.combo-popup::after{
+  background:none !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
